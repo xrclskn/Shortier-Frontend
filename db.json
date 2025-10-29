@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "id": 1, "name": "Demo User", "email": "demo@demo.com", "password": "123456" }
+  ],
+  "profiles": [
+    { "id": 1, "userId": 1, "bio": "Hello, I am Demo!", "location": "Istanbul" }
+  ]
+}

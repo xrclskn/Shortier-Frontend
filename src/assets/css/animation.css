@@ -1,0 +1,22 @@
+
+.typewriter {
+    font-size: 3rem;               /* isteğe göre boyut */
+    overflow: hidden;              /* yazı taşmasın */
+    border-right: .15em solid #555;/* imleç efekti */
+    white-space: nowrap;           /* satır kayması olmasın */
+    animation: typing 1s steps(8) infinite,
+    blink .7s step-end infinite;
+}
+
+/* Harf harf yazma ve silme */
+@keyframes typing {
+    0% { width: 0ch; }
+    25% { width: 8ch; }
+    100% { width: 0ch; }
+}
+
+/* İmleç yanıp sönmesi */
+@keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: #555; }
+}
