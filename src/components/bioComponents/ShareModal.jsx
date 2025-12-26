@@ -10,7 +10,7 @@ import {
     faReddit,
     faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
-import {faEnvelope, faLink} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLink } from "@fortawesome/free-solid-svg-icons";
 
 export default function ShareModal({ open, onClose, shareUrl, profile, username }) {
     const [copied, setCopied] = React.useState(false);
@@ -68,29 +68,17 @@ export default function ShareModal({ open, onClose, shareUrl, profile, username 
                 </button>
 
                 {/* Profil Bilgileri */}
-                <div className="flex items-center gap-3 mb-4">
-                    <div
-                        className="w-12 h-12 rounded-full flex items-center justify-center text-lg shadow-md border-2 border-gray-100 overflow-hidden"
-                        style={{
-                            background: "#7ca3d7",
-                            color: "#fff"
-                        }}
-                    >
-                        {profile?.photo
-                            ? <img src={profile.photo} alt="Profil" className="w-full h-full object-cover"/>
-                            : profile?.full_name?.[0]?.toUpperCase() || "👤"}
+                {/* Profil Bilgileri */}
+                <div className="mb-4 text-center">
+                    <div className="font-semibold text-gray-800 text-lg">
+                        {profile?.full_name || profile?.name || username}
                     </div>
-                    <div className="flex-1">
-                        <div className="font-semibold text-gray-800">
-                            {profile?.full_name || profile?.name || username}
-                        </div>
-                        <div className="text-sm text-gray-500">@{username}</div>
-                    </div>
+                    <div className="text-sm text-gray-500">@{username}</div>
                 </div>
 
                 {/* Başlık */}
-                <div className="text-xl font-semibold mb-3 flex items-center gap-2 text-blue-500">
-                    <Share2 size={20} className="text-blue-500" />
+                <div className="text-xl font-semibold mb-3 flex items-center gap-2 text-[#010101]">
+                    <Share2 size={20} className="text-[#010101]" />
                     Profili Paylaş
                 </div>
 
@@ -104,7 +92,7 @@ export default function ShareModal({ open, onClose, shareUrl, profile, username 
                     />
                     <button
                         onClick={handleCopy}
-                        className="ml-2 px-2 py-1 rounded text-blue-600 hover:bg-blue-50 transition text-xs font-medium flex items-center gap-1"
+                        className="ml-2 px-2 py-1 rounded text-[#010101] hover:bg-gray-200 transition text-xs font-medium flex items-center gap-1"
                     >
                         {copied ? (
                             <>
@@ -137,7 +125,7 @@ export default function ShareModal({ open, onClose, shareUrl, profile, username 
                 {/* Shortier'e Kayıt Ol Butonu */}
                 <button
                     onClick={() => window.open(`/register?ref=${username}`, '_blank')}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 mb-3"
+                    className="w-full bg-[#010101] hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 mb-3"
                 >
                     <span className="font-handwritten">Shortier</span>
                     <span>ile senin de profilin olsun</span>

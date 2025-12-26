@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import apiClient from "@/api/client.js";
-import {useAuth} from "@/context/AuthContext.jsx";
-import {useParams} from "react-router-dom";
+import { useAuth } from "@/context/AuthContext.jsx";
+import { useParams } from "react-router-dom";
 
 const LinksContext = createContext();
 
@@ -20,7 +20,7 @@ export function LinksProvider({ children }) {
         setLoading(true);
         setErrors([]);
         try {
-            const res = await apiClient.get("/profile-links");
+            const res = await apiClient.get("/api/profile/get");
             setLinks(res.data.links || []);
         } catch (error) {
             console.error("Error fetching links:", error);
@@ -60,6 +60,27 @@ export function LinksProvider({ children }) {
             return false;
         } finally {
             setLoading(false);
+        }
+    };
+
+    const toggleLinkStatus = async (id, currentStatus) => {
+        try {
+            // Optimistic UI update
+            setLinks(links.map(link =>
+                link.id === id ? { ...link, is_active: !currentStatus } : link
+            ));
+
+            await apiClient.put(`/api/profile/links/visibility/${id}`, {
+                visibility: !currentStatus
+            });
+            return true;
+        } catch (error) {
+            console.error("Error toggling link status:", error);
+            // Revert on error
+            setLinks(links.map(link =>
+                link.id === id ? { ...link, is_active: currentStatus } : link
+            ));
+            return false;
         }
     };
 

@@ -101,7 +101,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap",
-        proOnly : true
+        proOnly: true
     },
 
     {
@@ -110,7 +110,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap",
-        proOnly : true
+        proOnly: true
     },
     {
         value: "Roboto",
@@ -118,7 +118,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap",
-        proOnly : true
+        proOnly: true
     },
 
     {
@@ -127,7 +127,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap",
-        proOnly : true
+        proOnly: true
     },
 
     {
@@ -136,7 +136,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap",
-        proOnly : true
+        proOnly: true
     },
 
     {
@@ -145,7 +145,7 @@ export const fontOptions = [
         category: "Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
 
     {
@@ -154,7 +154,7 @@ export const fontOptions = [
         category: "Handwriting",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
 
     // Daha fazla font eklemeliyiz popüler fonrlardan ekler misin?
@@ -165,7 +165,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Oswald",
@@ -173,7 +173,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Merriweather",
@@ -181,7 +181,7 @@ export const fontOptions = [
         category: "Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Pacifico",
@@ -189,7 +189,7 @@ export const fontOptions = [
         category: "Handwriting",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Pacifico&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Ubuntu",
@@ -197,7 +197,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Fira Sans",
@@ -205,7 +205,7 @@ export const fontOptions = [
         category: "Sans Serif",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
     {
         value: "Caveat",
@@ -213,24 +213,25 @@ export const fontOptions = [
         category: "Handwriting",
         preview: "Aa",
         url: "https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap",
-        proOnly : false
+        proOnly: false
     },
 
 ];
 
 export const socialPlatforms = [
-    //{ id: 'instagram', name: 'Instagram', icon: faInstagram, color: '#E4405F', baseUrl: 'https://instagram.com/' },
-    //{ id: 'twitter', name: 'Twitter', icon: faTwitter, color: '#1DA1F2', baseUrl: 'https://twitter.com/' },
-    //{ id: 'youtube', name: 'YouTube', icon: faYoutube , color: '#FF0000', baseUrl: 'https://youtube.com/' },
-    //{ id: 'facebook', name: 'Facebook', icon: faFacebook , color: '#1877F2', baseUrl: 'https://facebook.com/' },
-    //{ id: 'linkedin', name: 'LinkedIn', icon: faLinkedin, color: '#0A66C2', baseUrl: 'https://linkedin.com/in/' },
-    //{ id: 'github', name: 'GitHub', icon: faGithub, color: '#181717', baseUrl: 'https://github.com' },
-    //{ id: 'tiktok', name: 'TikTok', icon: faTiktok, color: '#000000', baseUrl: 'https://tiktok.com/@' },
-    { id: 'whatsapp', name: 'WhatsApp', icon: faWhatsapp, color: '#25D366', baseUrl: 'https://wa.me/' },
-    { id: 'website', name: 'Website', icon: faGlobe, color: '#6366F1', baseUrl: 'https://' },
-    { id: 'email', name: 'E-posta', icon: faEnvelope, color: '#EA4335', baseUrl: 'mailto:' },
-    { id: 'phone', name: 'Telefon', icon: faPhone, color: '#34A853', baseUrl: 'tel:' },
-    { id: 'location', name: 'Konum', icon: faMapLocation, color: '#10B981', baseUrl: 'https://maps.google.com/?q=' }
+    { id: 'instagram', name: 'Instagram', icon: faInstagram, color: '#E4405F', baseUrl: 'https://instagram.com/', placeholder: 'https://instagram.com/kullaniciadi' },
+    { id: 'twitter', name: 'Twitter', icon: faTwitter, color: '#1DA1F2', baseUrl: 'https://twitter.com/', placeholder: 'https://twitter.com/kullaniciadi' },
+    { id: 'youtube', name: 'YouTube', icon: faYoutube, color: '#FF0000', baseUrl: 'https://youtube.com/', placeholder: 'https://youtube.com/@kanaladi' },
+    { id: 'facebook', name: 'Facebook', icon: faFacebook, color: '#1877F2', baseUrl: 'https://facebook.com/', placeholder: 'https://facebook.com/kullaniciadi' },
+    { id: 'linkedin', name: 'LinkedIn', icon: faLinkedin, color: '#0A66C2', baseUrl: 'https://linkedin.com/in/', placeholder: 'https://linkedin.com/in/kullaniciadi' },
+    { id: 'github', name: 'GitHub', icon: faGithub, color: '#181717', baseUrl: 'https://github.com/', placeholder: 'https://github.com/kullaniciadi' },
+    { id: 'tiktok', name: 'TikTok', icon: faTiktok, color: '#000000', baseUrl: 'https://tiktok.com/@', placeholder: 'https://tiktok.com/@kullaniciadi' },
+    { id: 'discord', name: 'Discord', icon: faDiscord, color: '#5865F2', baseUrl: 'https://discord.gg/', placeholder: 'https://discord.gg/davetkodu' },
+    { id: 'whatsapp', name: 'WhatsApp', icon: faWhatsapp, color: '#25D366', baseUrl: 'https://wa.me/', placeholder: '905555555555' },
+    { id: 'website', name: 'Website', icon: faGlobe, color: '#6366F1', baseUrl: 'https://', placeholder: 'https://websiteniz.com' },
+    { id: 'email', name: 'E-posta', icon: faEnvelope, color: '#EA4335', baseUrl: 'mailto:', placeholder: 'ornek@email.com' },
+    { id: 'phone', name: 'Telefon', icon: faPhone, color: '#34A853', baseUrl: 'tel:', placeholder: '+90 555 555 55 55' },
+    { id: 'location', name: 'Konum', icon: faMapLocation, color: '#10B981', baseUrl: 'https://maps.google.com/?q=', placeholder: 'Konum linki veya adresi' }
 ];
 
 

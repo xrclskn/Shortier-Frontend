@@ -17,7 +17,7 @@ export function UserProvider({ children }) {
 
         setIsLoading(true);
         try {
-            const response = await apiClient.get(`/profile/${userId}`);
+            const response = await apiClient.get(`/api/profile`);
             setUsername(response.data.profile.username);
             setPhoto(response.data.profile.photo);
         } catch (error) {

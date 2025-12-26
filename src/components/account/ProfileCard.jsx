@@ -18,7 +18,7 @@ export default function ProfileCard({ userData, onEdit }) {
     const handleSendVerification = async () => {
         try {
             setSending(true);
-            await apiClient.post('/email/send-verification');
+            await apiClient.post('/api/email/send-verification');
             setSent(true);
         } catch (error) {
             console.error(error);
@@ -36,10 +36,10 @@ export default function ProfileCard({ userData, onEdit }) {
                         <img
                             src={userData.photo}
                             alt={userData?.name || 'Kullanıcı'}
-                            className="w-28 h-28 rounded-full border-4 border-gradient-to-r from-blue-500 to-purple-500 object-cover shadow-md"
+                            className="w-28 h-28 rounded-full border-4 border-[#efefef] object-cover shadow-md"
                         />
                     ) : (
-                        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-3xl shadow-md">
+                        <div className="w-28 h-28 rounded-full bg-[#efefef] flex items-center justify-center text-[#010101] font-bold text-3xl shadow-md">
                             {userData?.name?.charAt(0).toUpperCase() || 'U'}
                         </div>
                     )}
@@ -65,11 +65,10 @@ export default function ProfileCard({ userData, onEdit }) {
                                 <button
                                     onClick={handleSendVerification}
                                     disabled={sending || sent}
-                                    className={`text-xs font-medium rounded-md px-3 py-2 transition-all ${
-                                        sent
+                                    className={`text-xs font-medium rounded-md px-3 py-2 transition-all ${sent
                                             ? 'bg-gray-100 text-gray-500 cursor-default'
-                                            : 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                    }`}
+                                            : 'bg-[#010101] text-white hover:bg-gray-800'
+                                        }`}
                                 >
                                     {sent
                                         ? 'E-posta Gönderildi ✔'

@@ -19,7 +19,7 @@ export function AccountProvider({ children }) {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await apiClient.get(`/account/${userId}`);
+            const response = await apiClient.get(`/api/account/${userId}`);
             setAccountData(response.data);
         } catch (err) {
             setError("Hesap bilgileri alınamadı.");
@@ -31,7 +31,7 @@ export function AccountProvider({ children }) {
 
     const accountProfileData = async () => {
         try {
-            const response = await apiClient.get(`/account/profile/${userId}`);
+            const response = await apiClient.get(`/api/account/profile/${userId}`);
             setProfileData(response.data);
         } catch (err) {
             setError("Hesap bilgileri alınamadı.");
@@ -48,7 +48,7 @@ export function AccountProvider({ children }) {
 
         try {
             const response = await apiClient.post(
-                `/account/password/change/${userId}`,
+                `/api/account/password/change/${userId}`,
                 {
                     current_password: currentPassword,
                     new_password: newPassword,
@@ -71,7 +71,7 @@ export function AccountProvider({ children }) {
         setError(null);
 
         try {
-            const res = await apiClient.delete("/account/delete", {
+            const res = await apiClient.delete("/api/account/delete", {
                 data: { password, reason },
             });
             return res.data;

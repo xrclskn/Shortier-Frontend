@@ -15,7 +15,7 @@ export default function EmailVerificationStatus() {
     const sendVerification = async () => {
         try {
             setSending(true);
-            await apiClient.post("/email/send-verification");
+            await apiClient.post("/api/email/send-verification");
             setSent(true);
         } catch (err) {
             console.error(err);

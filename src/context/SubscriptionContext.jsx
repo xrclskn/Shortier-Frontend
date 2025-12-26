@@ -15,7 +15,7 @@ export function SubscriptionProvider({ children }) {
 
         async function fetchSubscription() {
             try {
-                const { data } = await apiClient.get("/billing/subscription");
+                const { data } = await apiClient.get("/api/billing/subscription");
                 if (!alive) return;
                 setInfo(data);
             } catch (err) {
@@ -28,7 +28,6 @@ export function SubscriptionProvider({ children }) {
             }
         }
 
-        fetchSubscription();
 
         return () => {
             alive = false;
@@ -68,11 +67,8 @@ export function SubscriptionProvider({ children }) {
     );
 }
 
-// internal fallback: hook provider dışında kullanılmasın
+// Hook: returns null if used outside provider (safe fallback)
 export function useSubscriptionContext() {
     const ctx = useContext(SubscriptionContext);
-    if (!ctx) {
-        throw new Error("useSubscriptionContext must be used within <SubscriptionProvider>");
-    }
-    return ctx;
+    return ctx || { info: null, loading: true, error: null, formatDate: () => "-" };
 }
