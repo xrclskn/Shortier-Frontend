@@ -128,7 +128,9 @@ export default function Bio() {
             setError(null);
 
             try {
-                const response = await apiClient.get(`/api/${username}`);
+                // Remove @ if present in username parameter
+                const safeUsername = username.replace('@', '');
+                const response = await apiClient.get(`/api/${safeUsername}`);
                 const data = response.data;
 
                 // Set profile
@@ -661,6 +663,9 @@ export default function Bio() {
 
 
                     </div>
+                    <p className="text-center md:mt-6 py-1 md-py-0">
+                        Powered by <span className="font-handwritten"><a href="https://shortier.link" target="_blank">Shortier</a></span>
+                    </p>
                 </div>
             </div>
 
