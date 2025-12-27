@@ -29,7 +29,7 @@ export default function HeaderDropdown() {
     const handleLogout = async () => {
         setOpen(false);
         await logout();
-        navigate("/login");
+        navigate("/app/login");
     };
 
     // Profil fotoğrafı, isim veya initial render
@@ -98,7 +98,7 @@ export default function HeaderDropdown() {
                         <button
                             onClick={() => {
                                 setOpen(false);
-                                navigate("/profile-designer");
+                                navigate("/app/biography");
                             }}
                             className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-150 flex items-center space-x-2"
                         >
@@ -108,7 +108,7 @@ export default function HeaderDropdown() {
                         <button
                             onClick={() => {
                                 setOpen(false);
-                                navigate("/settings");
+                                navigate("/app/account");
                             }}
                             className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-150 flex items-center space-x-2"
                         >

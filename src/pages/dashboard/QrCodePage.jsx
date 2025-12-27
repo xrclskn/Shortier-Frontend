@@ -64,7 +64,7 @@ export default function QrCodePage() {
             {type && id && (
                 <div className="absolute top-4 right-4 z-10">
                     <button
-                        onClick={() => navigate(`/analytics/${type}/${id}`)}
+                        onClick={() => navigate(`/app/analytics/${type}/${id}`)}
                         className="bg-white text-gray-700 px-4 py-2 rounded-lg shadow-md flex items-center hover:bg-gray-50 border border-gray-200 transition-colors"
                     >
                         <BarChart2 size={18} className="mr-2" />

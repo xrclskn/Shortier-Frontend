@@ -92,14 +92,14 @@ export default function LinkCard({ id, iconBg, icon, color, title, url, clicks, 
                     <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block"></div>
 
                     <button
-                        onClick={() => navigate(`/qr-designer?url=${encodeURIComponent(url)}&type=profile_link&id=${id}`)}
+                        onClick={() => navigate(`/app/qr-designer?url=${encodeURIComponent(url)}&type=profile_link&id=${id}`)}
                         className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                         title="QR Kod Oluştur"
                     >
                         <FontAwesomeIcon icon={faQrcode} className="text-lg" />
                     </button>
 
-                    <NavLink to={`/link/statistic/${id}`}>
+                    <NavLink to={`/app/analytics/profile_link/${id}`}>
                         <button
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                             title="İstatistikler & Düzenle"

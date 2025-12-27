@@ -42,7 +42,7 @@ const QrCodes = () => {
             urlParam = qr.short_url || targetUrl;
         }
 
-        navigate(`/qr-designer?url=${encodeURIComponent(urlParam)}&type=${type}&id=${id}`);
+        navigate(`/app/qr-designer?url=${encodeURIComponent(urlParam)}&type=${type}&id=${id}`);
     };
 
     if (loading) {
@@ -122,7 +122,7 @@ const QrCodes = () => {
                                             <Edit2 size={18} />
                                         </button>
                                         <button
-                                            onClick={() => navigate(`/analytics/${qr.type}/${qr.designable_id}`)}
+                                            onClick={() => navigate(`/app/analytics/${qr.type}/${qr.designable_id}`)}
                                             className="p-2 text-gray-600 hover:bg-white hover:text-green-600 rounded-lg transition-all"
                                             title="İstatistikler"
                                         >

@@ -184,7 +184,7 @@ const SocialLinksPanel = ({
                                     <div className="flex items-center gap-1">
                                         {link.id && !String(link.id).startsWith('temp_') && (
                                             <button
-                                                onClick={() => navigate(`/analytics/action/${link.id}`)}
+                                                onClick={() => navigate(`/app/analytics/action/${link.id}`)}
                                                 className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                                                 title="İstatistikler"
                                             >

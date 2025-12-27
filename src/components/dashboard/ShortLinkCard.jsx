@@ -100,7 +100,7 @@ export default function ShortLinkCard({ id, title, shortCode, originalUrl, click
                     </button>
 
                     <button
-                        onClick={() => navigate(`/qr-designer?url=${config.REDIRECT_BASE_URL}/${shortCode}&type=short_url&id=${id}`)}
+                        onClick={() => navigate(`/app/qr-designer?url=${config.REDIRECT_BASE_URL}/${shortCode}&type=short_url&id=${id}`)}
                         className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
                         title="QR Kod Oluştur"
                     >
@@ -108,7 +108,7 @@ export default function ShortLinkCard({ id, title, shortCode, originalUrl, click
                     </button>
 
                     <button
-                        onClick={() => navigate(`/analytics/short_url/${id}`)}
+                        onClick={() => navigate(`/app/analytics/short_url/${id}`)}
                         className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
                         title="İstatistikler"
                     >
