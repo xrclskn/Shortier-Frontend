@@ -11,7 +11,7 @@ export default function EmailVerifyPage() {
 
     useEffect(() => {
         if (!id || !hash || !expires || !signature) {
-            nav("/login?verify=bad_link");
+            nav("/app/login?verify=bad_link");
             return;
         }
 
@@ -20,14 +20,14 @@ export default function EmailVerifyPage() {
             params: { expires, signature },
             headers: { Accept: "application/json" }, // 204/JSON bekliyoruz
         })
-            .then(() => nav("/account?verified=1"))
+            .then(() => nav("/app/account?verified=1"))
             .catch((err) => {
                 const s = err?.response?.status;
-                if (s === 409) nav("/account?verified=already");
-                else if (s === 403) nav("/login?verify=invalid");
-                else if (s === 401) nav("/login?verify=auth_required");
-                else if (s === 419) nav("/login?verify=expired");
-                else nav("/login?verify=failed");
+                if (s === 409) nav("/app/account?verified=already");
+                else if (s === 403) nav("/app/login?verify=invalid");
+                else if (s === 401) nav("/app/login?verify=auth_required");
+                else if (s === 419) nav("/app/login?verify=expired");
+                else nav("/app/login?verify=failed");
             });
     }, [id, hash, expires, signature]);
 

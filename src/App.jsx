@@ -22,6 +22,8 @@ const LinkStats = lazy(() => import("@/pages/analytics/LinkStats.jsx"));
 const Account = lazy(() => import("@/pages/account/Account.jsx"));
 const Subscription = lazy(() => import("@/pages/account/Subscription.jsx"));
 const EmailVerifyPage = lazy(() => import("@/pages/auth/EmailVerifyPage.jsx"));
+const ForgotPassword = lazy(() => import("@/pages/auth/ForgotPassword.jsx"));
+const ResetPassword = lazy(() => import("@/pages/auth/ResetPassword.jsx"));
 
 const PageLoader = () => (
     <div className="min-h-screen flex items-center justify-center bg-[#eeefe6]">
@@ -54,6 +56,8 @@ export default function App() {
                     <Route path="/app">
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
+                        <Route path="forgot-password" element={<ForgotPassword />} />
+                        <Route path="reset-password" element={<ResetPassword />} />
 
                         <Route element={
                             <ProtectedRoute>

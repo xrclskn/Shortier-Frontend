@@ -87,12 +87,17 @@ const Login = () => {
                         {isSubmitting ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
                     </button>
                 </form>
-                <p className="text-center text-sm text-gray-500 mt-2">
-                    Hesabınız yok mu?{' '}
-                    <Link to="/app/register" className="text-[#010101] hover:underline font-medium">
-                        Kayıt Olun
+                <div className="flex items-center justify-between text-sm">
+                    <Link to="/app/forgot-password" className="text-gray-500 hover:text-[#010101]">
+                        Şifremi Unuttum
                     </Link>
-                </p>
+                    <span className="text-gray-400">
+                        Hesabınız yok mu?{' '}
+                        <Link to="/app/register" className="text-[#010101] hover:underline font-medium">
+                            Kayıt Olun
+                        </Link>
+                    </span>
+                </div>
             </div>
         </div>
     );
