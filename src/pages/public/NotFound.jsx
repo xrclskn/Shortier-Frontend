@@ -1,5 +1,5 @@
 // src/pages/NotFound.jsx
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function NotFound() {
     return (
@@ -9,7 +9,7 @@ export default function NotFound() {
             <p className="text-gray-200 mb-4">
                 Aradığınız sayfa sistemde bulunamadı.
             </p>
-            <Link className="px-6 py-3 rounded-lg bg-white font-semibold text-blue-600" to="/">Anasayfaya Dön</Link>
+            <Link className="px-6 py-3 rounded-lg bg-white font-semibold text-blue-600" to="/app">Anasayfaya Dön</Link>
         </div>
     );
 }

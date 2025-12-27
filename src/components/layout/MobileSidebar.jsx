@@ -31,19 +31,19 @@ export default function MobileSidebar({ open, onClose }) {
 
                 {/* MENÜ */}
                 <nav className="flex flex-col gap-2">
-                    <NavLink to="/" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
                         <House className="w-5 h-5" />
                         Dashboard
                     </NavLink>
-                    <NavLink to="/profile-designer" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app/biography" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
                         <User className="w-5 h-5" />
                         Profil
                     </NavLink>
-                    <NavLink to="/account" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app/account" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
                         <Palette className="w-5 h-5" />
                         Hesap Ayarları
                     </NavLink>
-                    <NavLink to="/analytics" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app/analytics" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
                         <BarChart3 className="w-5 h-5" />
                         İstatistikler
                     </NavLink>

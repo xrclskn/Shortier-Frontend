@@ -56,8 +56,8 @@ export default function App() {
                         <Register />
                     } />
 
-                    <Route path="/"
-                        element={
+                    <Route path="/app">
+                        <Route element={
                             <ProtectedRoute>
                                 <motion.div
                                     initial={{ opacity: 0, y: 30, scale: 0.98 }}
@@ -69,138 +69,139 @@ export default function App() {
                                 </motion.div>
                             </ProtectedRoute>
                         }>
-                        <Route index element={
+                            <Route index element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <Dashboard />
+                                </motion.div>
+                            } />
+
+                            <Route path="dashboard" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <Dashboard />
+                                </motion.div>
+                            } />
+
+                            <Route path="short-urls" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <ShortUrl />
+                                </motion.div>
+                            } />
+
+                            <Route path="qr-designer" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <QrCodePage />
+                                </motion.div>
+                            } />
+
+                            <Route path="qr-codes" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <QrCodes />
+                                </motion.div>
+                            } />
+
+
+                            <Route path="subscription" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <Subscription />
+                                </motion.div>
+                            } />
+
+                            <Route path="links" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <Links />
+                                </motion.div>
+                            } />
+
+                            <Route path="account" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <Account />
+                                </motion.div>
+                            } />
+
+                            <Route path="*" element={
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <NotFound />
+                                </motion.div>
+                            } />
+                        </Route>
+
+                        <Route path="biography" element={
                             <motion.div
                                 initial={{ opacity: 0, y: 30, scale: 0.98 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -20, scale: 0.98 }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                <Dashboard />
+                                <ProtectedRoute><ProfileDesigner /></ProtectedRoute>
                             </motion.div>
                         } />
-
-                        <Route path="dashboard" element={
+                        <Route path="analytics" element={
                             <motion.div
                                 initial={{ opacity: 0, y: 30, scale: 0.98 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -20, scale: 0.98 }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                <Dashboard />
+                                <ProtectedRoute><Statistics /></ProtectedRoute>
                             </motion.div>
-                        } />
 
-                        <Route path="short-urls" element={
+                        } />
+                        <Route path="analytics/:type/:id" element={
                             <motion.div
                                 initial={{ opacity: 0, y: 30, scale: 0.98 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -20, scale: 0.98 }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                <ShortUrl />
-                            </motion.div>
-                        } />
-
-                        <Route path="qr-designer" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <QrCodePage />
-                            </motion.div>
-                        } />
-
-                        <Route path="qr-codes" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <QrCodes />
-                            </motion.div>
-                        } />
-
-
-                        <Route path="subscription" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <Subscription />
-                            </motion.div>
-                        } />
-
-                        <Route path="links" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <Links />
-                            </motion.div>
-                        } />
-
-                        <Route path="/account" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <Account />
-                            </motion.div>
-                        } />
-
-                        <Route path="*" element={
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                                <NotFound />
+                                <ProtectedRoute><LinkStats /></ProtectedRoute>
                             </motion.div>
                         } />
                     </Route>
-
-                    <Route path="/biography" element={
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <ProtectedRoute><ProfileDesigner /></ProtectedRoute>
-                        </motion.div>
-                    } />
-                    <Route path="analytics" element={
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <ProtectedRoute><Statistics /></ProtectedRoute>
-                        </motion.div>
-
-                    } />
-                    <Route path="analytics/:type/:id" element={
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <ProtectedRoute><LinkStats /></ProtectedRoute>
-                        </motion.div>
-                    } />
 
 
                     <Route path="/api/email/verify/:id/:hash" element={<EmailVerifyPage />} />

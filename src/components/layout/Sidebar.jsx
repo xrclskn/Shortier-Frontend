@@ -59,13 +59,13 @@ export default function Sidebar() {
                 <ProfileSwitcher className="mb-6 md:hidden" />
 
                 <div className="space-y-2">
-                    <SLink to="/" icon={House} label="Anasayfa" />
-                    <SLink to="/short-urls" icon={LinkIcon} label="Link Kısalt" />
-                    <SLink to="/biography" icon={User} label="Biyografi Tasarla" />
-                    <SLink to="/qr-codes" icon={QrCode} label="QR Kodlarım" />
-                    <SLink to="/analytics" icon={BarChart2} label="İstatistikler" />
-                    <SLink to="/account" icon={UserCog} label="Hesap Ayarları" />
-                    <SLink to="/subscription" icon={Crown} label="Abonelik" />
+                    <SLink to="/app" icon={House} label="Anasayfa" />
+                    <SLink to="/app/short-urls" icon={LinkIcon} label="Link Kısalt" />
+                    <SLink to="/app/biography" icon={User} label="Biyografi Tasarla" />
+                    <SLink to="/app/qr-codes" icon={QrCode} label="QR Kodlarım" />
+                    <SLink to="/app/analytics" icon={BarChart2} label="İstatistikler" />
+                    <SLink to="/app/account" icon={UserCog} label="Hesap Ayarları" />
+                    <SLink to="/app/subscription" icon={Crown} label="Abonelik" />
 
                 </div>
 

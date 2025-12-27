@@ -13,15 +13,16 @@ export default function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const titleMap = {
-        "/": "Anasayfa",
-        "/profile": "Profil",
-        "/short-urls": "Linkler",
-        "/themes": "Temalar",
-        "/analytics": "İstatistikler",
-        "/account": "Hesap Ayarları",
-        '/subscription': "Abonelik",
-        '/biography': "Biyografi Tasarla",
-        '/qr-codes': "QR Kodlarım",
+        "/app": "Anasayfa",
+        "/app/dashboard": "Anasayfa",
+        "/app/profile": "Profil",
+        "/app/short-urls": "Linkler",
+        "/app/themes": "Temalar",
+        "/app/analytics": "İstatistikler",
+        "/app/account": "Hesap Ayarları",
+        '/app/subscription': "Abonelik",
+        '/app/biography': "Biyografi Tasarla",
+        '/app/qr-codes': "QR Kodlarım",
     };
 
     const headerTitle = titleMap[pathname] || "";

@@ -41,14 +41,14 @@ export default function Dashboard() {
             c1: "bg-white",
             icon: User,
             title: "Profil Düzenle",
-            link: "biography",
+            link: "/app/biography",
             sub: "Bilgileri güncelle",
         },
         {
             c1: "bg-white",
             icon: ChartBar,
             title: "Tıklama Analizi",
-            link: "statistics",
+            link: "/app/analytics",
             sub: "İstatistiklere göz at",
         },
         {
@@ -84,13 +84,13 @@ export default function Dashboard() {
                             </p>
                             <div className="mt-3 flex gap-3">
                                 <NavLink
-                                    to="/account/subscription"
+                                    to="/app/subscription"
                                     className="inline-flex items-center px-4 py-2 bg-white text-orange-600 font-semibold rounded-lg hover:bg-white/90 transition-colors text-sm"
                                 >
                                     🚀 Planı Yükselt
                                 </NavLink>
                                 <NavLink
-                                    to="/profile/list"
+                                    to="/app/profile/list"
                                     className="inline-flex items-center px-4 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-colors text-sm"
                                 >
                                     🗂️ Profilleri Yönet

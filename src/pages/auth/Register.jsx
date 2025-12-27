@@ -16,7 +16,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/');
+        if (user) navigate('/app');
     }, [user, navigate]);
 
 
@@ -35,7 +35,7 @@ const Register = () => {
         }
         setIsSubmitting(true);
         const result = await register(userData);
-        if (result.success) navigate('/');
+        if (result.success) navigate('/app');
         setIsSubmitting(false);
     };
 

@@ -1224,7 +1224,7 @@ export default function Statistics() {
                                     <ShortierReportExporter stats={stats} user={user} />
                                 ) : (
                                     <NavLink
-                                        to="/subscription"
+                                        to="/app/subscription"
                                         title="Bu özellik yalnızca Pro kullanıcılar için"
                                         className="flex items-center space-x-2 px-4 py-2 bg-gray-500 text-white hover:bg-gray-600 rounded-lg transition-all"
                                         aria-disabled={true}
@@ -1242,7 +1242,7 @@ export default function Statistics() {
                                 </button>
 
                                 <NavLink
-                                    to="/"
+                                    to="/app"
                                     className="flex items-center space-x-2 px-4 py-2 bg-[#010101] text-white hover:bg-gray-800 rounded-lg transition-all font-medium"
                                 >
                                     <ArrowLeft size={20} />

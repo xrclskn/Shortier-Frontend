@@ -11,7 +11,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/');
+        if (user) navigate('/app');
     }, [user, navigate]);
 
     const handleChange = (e) => {
@@ -23,7 +23,7 @@ const Login = () => {
         e.preventDefault();
         setIsSubmitting(true);
         const result = await login(credentials);
-        if (result.success) navigate('/');
+        if (result.success) navigate('/app');
         setIsSubmitting(false);
     };
 
