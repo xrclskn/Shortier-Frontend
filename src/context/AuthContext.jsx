@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import apiClient from "@/api/client.js";
+import { useQueryClient } from '@tanstack/react-query';
 
 const AuthContext = createContext();
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const queryClient = useQueryClient();
 
     // CSRF token al
     const getCsrfToken = async () => {
@@ -110,6 +112,8 @@ export const AuthProvider = ({ children }) => {
         }
         localStorage.removeItem('token');
         localStorage.removeItem('activeProfileId');
+        // Clear React Query cache to prevent stale data
+        queryClient.clear();
         setUser(null);
         setProfiles([]);
         setActiveProfileId(null);

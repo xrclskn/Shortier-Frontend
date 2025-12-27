@@ -5,6 +5,7 @@ import useDashboardData from "@/hooks/useDashboardData";
 import { getImageUrl } from "@/utils/themeHelpers";
 import { config } from "@/config";
 import { useAuth } from "@/context/AuthContext";
+import LimitsCard from "@/components/dashboard/LimitsCard";
 
 function formatRelativeTime(isoString) {
     if (!isoString) return "";
@@ -55,7 +56,7 @@ export default function Dashboard() {
             c1: "bg-white",
             icon: Eye,
             title: "Profili Görüntüle",
-            link: data?.username ? `${config.PROFILE_BASE_URL}/${data.username}` : "#",
+            link: data?.username ? `${config.PROFILE_BASE_URL}/@${data.username}` : "#",
             sub: "Profilini ziyaret et",
             target: "_blank",
         },
@@ -219,87 +220,95 @@ export default function Dashboard() {
                 />
             </div>
 
-            {/* Son Aktiviteler */}
-            <div className="rounded-xl p-6 bg-white shadow-custom">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">
-                    Son Aktiviteler (24saat)
-                </h3>
-                {(!data?.last_activities || data.last_activities.length === 0) ? (
-                    <div className="text-gray-500 text-sm text-center py-8">
-                        Son 24 saatte aktivite yok.
-                    </div>
-                ) : (
-                    <div className="space-y-4">
-                        {data.last_activities.map((item, i) => {
-                            let Icon = Eye;
-                            let c = "bg-[#efefef]";
-                            let t = "Profil görüntülemesi";
-                            let s = "Profil ziyaret edildi";
+            {/* Limits and Activities Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Limits Card */}
+                <div className="lg:col-span-1">
+                    <LimitsCard usage={data?.usage} limits={data?.limits} planName={data?.plan_name} />
+                </div>
 
-                            if (item.type === 'admin_activity') {
-                                const sub = item.sub_type;
-                                const details = item.details || {};
-                                if (sub === 'profile_update') {
-                                    Icon = Edit;
-                                    t = "Profil Güncellendi";
-                                    s = `Kullanıcı adı: ${details.username || '...'}`;
-                                } else if (sub === 'link_create' || sub === 'social_link_create') {
-                                    Icon = Plus;
-                                    t = "Yeni Link Eklendi";
-                                    s = details.label || "Link";
-                                } else if (sub === 'link_update' || sub === 'social_link_update') {
-                                    Icon = Edit;
-                                    t = "Link Düzenlendi";
-                                    s = details.label || "Link";
-                                } else if (sub === 'link_delete') {
-                                    Icon = Trash;
-                                    t = "Link Silindi";
-                                    s = details.label || "Link";
-                                } else if (sub === 'link_reorder') {
-                                    Icon = RefreshCw;
-                                    t = "Sıralama Değişti";
-                                    s = `${details.count || '?'} link yeniden sıralandı`;
-                                } else {
-                                    // Fallback for other admins
-                                    Icon = Edit;
-                                    t = "İşlem Yapıldı";
-                                    s = sub;
+                {/* Son Aktiviteler */}
+                <div className="lg:col-span-2 rounded-xl p-6 bg-white shadow-custom">
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">
+                        Son Aktiviteler (24saat)
+                    </h3>
+                    {(!data?.last_activities || data.last_activities.length === 0) ? (
+                        <div className="text-gray-500 text-sm text-center py-8">
+                            Son 24 saatte aktivite yok.
+                        </div>
+                    ) : (
+                        <div className="space-y-4 max-h-[240px] overflow-y-auto pr-2">
+                            {data.last_activities.map((item, i) => {
+                                let Icon = Eye;
+                                let c = "bg-[#efefef]";
+                                let t = "Profil görüntülemesi";
+                                let s = "Profil ziyaret edildi";
+
+                                if (item.type === 'admin_activity') {
+                                    const sub = item.sub_type;
+                                    const details = item.details || {};
+                                    if (sub === 'profile_update') {
+                                        Icon = Edit;
+                                        t = "Profil Güncellendi";
+                                        s = `Kullanıcı adı: ${details.username || '...'}`;
+                                    } else if (sub === 'link_create' || sub === 'social_link_create') {
+                                        Icon = Plus;
+                                        t = "Yeni Link Eklendi";
+                                        s = details.label || "Link";
+                                    } else if (sub === 'link_update' || sub === 'social_link_update') {
+                                        Icon = Edit;
+                                        t = "Link Düzenlendi";
+                                        s = details.label || "Link";
+                                    } else if (sub === 'link_delete') {
+                                        Icon = Trash;
+                                        t = "Link Silindi";
+                                        s = details.label || "Link";
+                                    } else if (sub === 'link_reorder') {
+                                        Icon = RefreshCw;
+                                        t = "Sıralama Değişti";
+                                        s = `${details.count || '?'} link yeniden sıralandı`;
+                                    } else {
+                                        // Fallback for other admins
+                                        Icon = Edit;
+                                        t = "İşlem Yapıldı";
+                                        s = sub;
+                                    }
+                                } else if (item.type === 'click') {
+                                    Icon = MousePointer;
+                                    t = "Link tıklaması";
+                                    s = item.link_id
+                                        ? `Link ID #${item.link_id} tıklandı`
+                                        : "Bir link tıklandı";
                                 }
-                            } else if (item.type === 'click') {
-                                Icon = MousePointer;
-                                t = "Link tıklaması";
-                                s = item.link_id
-                                    ? `Link ID #${item.link_id} tıklandı`
-                                    : "Bir link tıklandı";
-                            }
 
-                            const rc = "text-gray-500";
-                            return (
-                                <div
-                                    key={i}
-                                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200"
-                                >
+                                const rc = "text-gray-500";
+                                return (
                                     <div
-                                        className={`w-10 h-10 rounded-xl ${c} flex items-center justify-center shadow-md`}
+                                        key={i}
+                                        className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200"
                                     >
-                                        <Icon className="w-4 h-4 text-[#010101]" />
+                                        <div
+                                            className={`w-10 h-10 rounded-xl ${c} flex items-center justify-center shadow-md`}
+                                        >
+                                            <Icon className="w-4 h-4 text-[#010101]" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="font-medium text-gray-900">
+                                                {t}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                {s}
+                                            </p>
+                                        </div>
+                                        <div className={`${rc} font-semibold text-sm text-right whitespace-nowrap`}>
+                                            {formatRelativeTime(item.created_at)}
+                                        </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <p className="font-medium text-gray-900">
-                                            {t}
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            {s}
-                                        </p>
-                                    </div>
-                                    <div className={`${rc} font-semibold text-sm text-right whitespace-nowrap`}>
-                                        {formatRelativeTime(item.created_at)}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

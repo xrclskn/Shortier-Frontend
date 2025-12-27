@@ -1,9 +1,19 @@
-import { X, Link as LinkIcon, House, User, Palette, BarChart3, LogOut } from "lucide-react";
+import { X, Link as LinkIcon, House, User, Palette, BarChart3, LogOut, Link2, QrCode, UserCog, Crown, Power } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext.jsx";
 
 export default function MobileSidebar({ open, onClose }) {
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        if (window.confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+            logout();
+            onClose();
+        }
+    };
+
     return (
-        <div className="fixed inset-0 z-50 flex md:hidden pointer-events-none">
+        <div className={`fixed inset-0 z-50 flex md:hidden pointer-events-none ${open ? "z-50" : "z-[-1]"}`}>
             {/* Sidebar kutusu */}
             <div
                 className={`
@@ -30,43 +40,57 @@ export default function MobileSidebar({ open, onClose }) {
                 </div>
 
                 {/* MENÜ */}
-                <nav className="flex flex-col gap-2">
-                    <NavLink to="/app" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                <nav className="flex flex-col gap-2 overflow-y-auto">
+                    <NavLink to="/app" end className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
                         <House className="w-5 h-5" />
-                        Dashboard
+                        Anasayfa
                     </NavLink>
-                    <NavLink to="/app/biography" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app/short-urls" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
+                        <Link2 className="w-5 h-5" />
+                        Link Kısalt
+                    </NavLink>
+                    <NavLink to="/app/biography" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
                         <User className="w-5 h-5" />
-                        Profil
+                        Biyografi Tasarla
                     </NavLink>
-                    <NavLink to="/app/account" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
-                        <Palette className="w-5 h-5" />
-                        Hesap Ayarları
+                    <NavLink to="/app/qr-codes" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
+                        <QrCode className="w-5 h-5" />
+                        QR Kodlarım
                     </NavLink>
-                    <NavLink to="/app/analytics" className="flex items-center gap-3 px-3 py-2 rounded hover:bg-[#efefef] font-medium text-[#010101]" onClick={onClose}>
+                    <NavLink to="/app/analytics" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
                         <BarChart3 className="w-5 h-5" />
                         İstatistikler
+                    </NavLink>
+                    <NavLink to="/app/account" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
+                        <UserCog className="w-5 h-5" />
+                        Hesap Ayarları
+                    </NavLink>
+                    <NavLink to="/app/subscription" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded font-medium ${isActive ? 'bg-[#010101] text-white' : 'text-[#010101] hover:bg-[#efefef]'}`} onClick={onClose}>
+                        <Crown className="w-5 h-5" />
+                        Abonelik
                     </NavLink>
                 </nav>
 
                 {/* PROFİL ve ÇIKIŞ */}
-                <div className="mt-auto pt-10 border-t border-gray-100">
-                    <div className="flex items-center gap-2 mb-4">
-                        <img
-                            src="https://randomuser.me/api/portraits/men/32.jpg"
-                            alt="Profil"
-                            className="w-9 h-9 rounded-full border border-indigo-100"
-                        />
-                        <div>
-                            <div className="text-[#010101] font-bold text-base">Ahmet</div>
-                            <div className="text-xs text-gray-500">ahmet@shortier.com</div>
+                <div className="mt-auto pt-6 border-t border-gray-100">
+                    {user && (
+                        <div className="flex items-center gap-2 mb-4">
+                            <img
+                                src={user.avatar_url || user.photo || "https://ui-avatars.com/api/?name=" + (user.full_name || user.username)}
+                                alt="Profil"
+                                className="w-9 h-9 rounded-full border border-indigo-100 object-cover"
+                            />
+                            <div className="overflow-hidden">
+                                <div className="text-[#010101] font-bold text-base truncate">{user.full_name || user.username}</div>
+                                <div className="text-xs text-gray-500 truncate">{user.email}</div>
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <button
                         className="flex items-center gap-2 w-full px-3 py-2 rounded hover:bg-[#efefef] text-[#010101] font-semibold transition"
-                        onClick={() => alert("Çıkış yapılıyor...")}
+                        onClick={handleLogout}
                     >
-                        <LogOut className="w-5 h-5" /> Çıkış Yap
+                        <Power className="w-5 h-5" /> Çıkış Yap
                     </button>
                 </div>
             </div>

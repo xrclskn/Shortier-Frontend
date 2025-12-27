@@ -358,6 +358,7 @@ export default function ProfileDesigner() {
                             onLinksUpdate={handleLinksUpdate}
                             onEditLink={handleEditLink}
                             isPro={isPro}
+                            maxFreeLinks={info?.limits?.bio_links ?? 5}
                         />
                     </div>
                 );

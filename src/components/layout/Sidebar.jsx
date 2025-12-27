@@ -8,10 +8,11 @@ const item = "flex items-center space-x-2 p-3 rounded-md transition";
 const active = "text-white bg-[#010101] ";
 const idle = "text-[#010101] hover:bg-[#efefef]";
 
-function SLink({ to, icon: Icon, label }) {
+function SLink({ to, icon: Icon, label, end }) {
     return (
         <NavLink
             to={to}
+            end={end}
             className={({ isActive }) =>
                 `nav-item ${item} ${isActive ? active : idle}`
             }
@@ -59,7 +60,7 @@ export default function Sidebar() {
                 <ProfileSwitcher className="mb-6 md:hidden" />
 
                 <div className="space-y-2">
-                    <SLink to="/app" icon={House} label="Anasayfa" />
+                    <SLink to="/app" icon={House} label="Anasayfa" end />
                     <SLink to="/app/short-urls" icon={LinkIcon} label="Link Kısalt" />
                     <SLink to="/app/biography" icon={User} label="Biyografi Tasarla" />
                     <SLink to="/app/qr-codes" icon={QrCode} label="QR Kodlarım" />

@@ -482,8 +482,6 @@ const Subscription = () => {
                                                     {renderFeature(plan.features.qr_design, "Gelişmiş QR Tasarımı")}
                                                     {renderFeature(plan.features.detailed_analytics, `${plan.limits.analytics_history_days === 365 ? '1 Yıllık' : '24 Saatlik'} İstatistik Geçmişi`)}
                                                     {renderFeature(plan.features.remove_branding, "Branding Kaldırma")}
-                                                    {renderFeature(plan.features.custom_domain, "Özel Domain")}
-                                                    {renderFeature(plan.features.team_members, "Ekip Üyeleri & API")}
                                                 </motion.ul>
                                             )}
                                         </AnimatePresence>

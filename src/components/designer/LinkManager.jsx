@@ -20,7 +20,7 @@ const LinkManager = ({
     onLinksUpdate,
     onEditLink,
     isPro = false,
-    maxFreeLinks = 4,
+    maxFreeLinks = 5,
 }) => {
     const [draggedIndex, setDraggedIndex] = useState(null);
     const [quickAddOpen, setQuickAddOpen] = useState(false);
