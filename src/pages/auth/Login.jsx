@@ -89,7 +89,7 @@ const Login = () => {
                 </form>
                 <p className="text-center text-sm text-gray-500 mt-2">
                     Hesabınız yok mu?{' '}
-                    <Link to="/register" className="text-[#010101] hover:underline font-medium">
+                    <Link to="/app/register" className="text-[#010101] hover:underline font-medium">
                         Kayıt Olun
                     </Link>
                 </p>

@@ -49,14 +49,12 @@ export default function App() {
                         </motion.div>
                     } />
 
-                    <Route path="/login" element={
-                        <Login />
-                    } />
-                    <Route path="/register" element={
-                        <Register />
-                    } />
+
 
                     <Route path="/app">
+                        <Route path="login" element={<Login />} />
+                        <Route path="register" element={<Register />} />
+
                         <Route element={
                             <ProtectedRoute>
                                 <motion.div

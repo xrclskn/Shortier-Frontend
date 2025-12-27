@@ -1,6 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import * as path from "path";
+import fs from 'fs';
+
+// Determine the output directory based on environment
+const localRedirectPath = '../shortier_redirect/public/bio';
+const serverBackendPath = '../backend/public/bio';
+
+let finalOutDir = localRedirectPath;
+
+if (process.env.BIO_OUT_DIR) {
+    finalOutDir = process.env.BIO_OUT_DIR;
+} else if (fs.existsSync(path.resolve(__dirname, '../backend'))) {
+    finalOutDir = serverBackendPath;
+}
+
+console.log(`Building Bio to: ${finalOutDir}`);
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,7 +27,7 @@ export default defineConfig({
     },
     base: '/bio/', // Assets will be served from /bio/
     build: {
-        outDir: '../shortier_redirect/public/bio',
+        outDir: finalOutDir,
         emptyOutDir: true,
         manifest: true,
         rollupOptions: {

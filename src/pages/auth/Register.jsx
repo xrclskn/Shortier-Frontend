@@ -119,7 +119,7 @@ const Register = () => {
                 </form>
                 <p className="text-center text-sm text-gray-500 mt-2">
                     Zaten hesabınız var mı?{' '}
-                    <NavLink to="/login" className="text-[#010101] hover:underline font-medium">
+                    <NavLink to="/app/login" className="text-[#010101] hover:underline font-medium">
                         Giriş Yapın
                     </NavLink>
                 </p>
