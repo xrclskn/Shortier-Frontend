@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Upload, Image as ImageIcon, Trash2, Check, Loader2 } from 'lucide-react';
 import apiClient from "@/api/client";
 import { toast } from '@/utils/toast';
+import { config } from '@/config';
 
 const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" }) => {
     const [activeTab, setActiveTab] = useState('library'); // library, upload
@@ -152,7 +153,7 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
                                             }`}
                                     >
                                         <img
-                                            src={(import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000') + item.url}
+                                            src={config.API_BASE_URL + item.url}
                                             alt={item.name}
                                             className="w-full h-full object-cover"
                                             onError={(e) => {

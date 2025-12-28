@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Palette, Image, Droplet, RefreshCw } from 'lucide-react';
 import FileManagerModal from "@/components/common/FileManagerModal";
+import { config } from '@/config';
 
 const BackgroundPanel = ({
     theme,
@@ -313,7 +314,7 @@ const BackgroundPanel = ({
                                         <div className="relative group w-full h-full flex justify-center">
                                             <img
                                                 src={theme.backgroundImage.startsWith('http') || theme.backgroundImage.startsWith('/storage')
-                                                    ? (theme.backgroundImage.startsWith('/storage') ? (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000') + theme.backgroundImage : theme.backgroundImage)
+                                                    ? (theme.backgroundImage.startsWith('/storage') ? config.API_BASE_URL + theme.backgroundImage : theme.backgroundImage)
                                                     : theme.backgroundImage
                                                 }
                                                 alt="Preview"

@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { iconOptions } from '@/components/profileEditor/Constants.js';
 
 import { generateTempId } from "@/utils/idHelpers";
+import { config } from '@/config';
 
 const LinkManager = ({
     links = [],
@@ -365,7 +366,7 @@ const LinkManager = ({
 
                                                     if (visualType === 'image' && settings.customImageUrl) {
                                                         const url = settings.customImageUrl;
-                                                        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+                                                        const baseUrl = config.API_BASE_URL;
                                                         let src = url;
 
                                                         if (url.startsWith('http://localhost/storage')) {

@@ -1,8 +1,10 @@
+import { config } from '@/config';
+
 export const getImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('data:')) return url;
 
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+    const baseUrl = config.API_BASE_URL;
 
     // Fix localhost URL issues (http://localhost/storage or http://localhost anything matching replacement)
     // We want to replace any localhost domain with our API_BASE_URL if it's not actually usable 

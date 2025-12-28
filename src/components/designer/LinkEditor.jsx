@@ -12,6 +12,7 @@ import {
 import { iconOptions } from "@/components/profileEditor/Constants.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FileManagerModal from "@/components/common/FileManagerModal";
+import { config } from '@/config';
 
 
 // Twitch ikonu için basit bir SVG component
@@ -373,7 +374,7 @@ const LinkEditor = ({
                                                 <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-gray-200">
                                                     <img
                                                         src={editedLink.customImageUrl.startsWith('/storage')
-                                                            ? (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000') + editedLink.customImageUrl
+                                                            ? config.API_BASE_URL + editedLink.customImageUrl
                                                             : editedLink.customImageUrl
                                                         }
                                                         alt="Preview"
@@ -561,7 +562,7 @@ const LinkEditor = ({
                                                         )}
                                                         {editedLink.visualType === 'image' && editedLink.customImageUrl && (() => {
                                                             const url = editedLink.customImageUrl;
-                                                            const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+                                                            const baseUrl = config.API_BASE_URL;
                                                             let src = url;
 
                                                             if (url.startsWith('http://localhost/storage')) {
