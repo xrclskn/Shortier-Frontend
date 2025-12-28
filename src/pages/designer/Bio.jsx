@@ -179,13 +179,14 @@ export default function Bio() {
     useEffect(() => {
         if (!username) return;
 
-        const cookieKey = `shortier_${username}`;
+        const safeUsername = username.replace('@', '');
+        const cookieKey = `shortier_${safeUsername}`;
         const alreadyViewed = Cookies.get(cookieKey);
 
         if (!alreadyViewed) {
             // Çerezi hemen ayarla
             Cookies.set(cookieKey, "1", { expires: 1 / 288 });
-            apiClient.post(`/api/profile/${username}/visit`)
+            apiClient.post(`/api/profile/${safeUsername}/visit`)
                 .catch(err => {
                     console.error("Görüntülenme kaydı hatası:", err);
                 });
