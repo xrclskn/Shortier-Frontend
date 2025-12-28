@@ -651,7 +651,7 @@ export default function Bio() {
                                     className="group w-full cursor-pointer py-4 px-4 rounded-2xl text-xs sm:text-sm font-semibold text-white bg-black hover:bg-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 flex items-center justify-center gap-2 sm:gap-3 whitespace-nowrap"
                                 >
                                     <span>
-                                        {username} ile <span className="font-handwritten text-sm sm:text-base">Shortier</span>'e katılın!
+                                        @{username.replace('@', '')} ile <span className="font-handwritten text-sm sm:text-base">Shortier</span>'e katılın!
                                     </span>
                                     <ExternalLink
                                         size={16}
