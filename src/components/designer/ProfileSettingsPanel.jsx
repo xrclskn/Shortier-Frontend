@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { User, AtSign, FileText, Camera, Upload, X, Check, AlertCircle, Lock } from 'lucide-react';
 import { useSubscriptionContext } from '@/context/SubscriptionContext.jsx';
 import { useProfileSave } from "@/context/ProfileSaveContext.jsx";
@@ -10,8 +10,10 @@ const ProfileSettingsPanel = ({
     onProfileUpdate
 }) => {
     const [previewAvatar, setPreviewAvatar] = useState(profileData.avatarUrl);
-    const [usernameStatus, setUsernameStatus] = useState('available'); // available, taken, checking
+    const [usernameStatus, setUsernameStatus] = useState('idle'); // idle, available, taken, checking, invalid
     const [isFileManagerOpen, setIsFileManagerOpen] = useState(false);
+    const debounceTimeoutRef = useRef(null);
+    const currentUsernameRef = useRef(profileData.username);
 
     // Subscription context for plan-gated features
     const { info, loading } = useSubscriptionContext();
@@ -19,30 +21,59 @@ const ProfileSettingsPanel = ({
     // If loading or info unavailable, allow feature (don't block users)
     const hasBranding = loading ? true : (info?.is_subscribed ?? false);
 
+    const { checkUsernameAvailability } = useProfileSave();
+
     // Input değişikliklerini handle etme
     const handleInputChange = (field, value) => {
         onProfileUpdate({ [field]: value });
     };
 
-    const { checkUsernameAvailability } = useProfileSave();
+    // Debounced username check
+    const checkUsername = (username) => {
+        // Önceki timeout'u temizle
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
 
-    const checkUsername = async (username) => {
+        // Geçersiz username
         if (!username || username.length < 3) {
             setUsernameStatus('invalid');
             return;
         }
-        setUsernameStatus('checking');
-        try {
-            const result = await checkUsernameAvailability(username);
-            if (result.available) {
-                setUsernameStatus('available');
-            } else {
-                setUsernameStatus('taken');
-            }
-        } catch (e) {
-            setUsernameStatus('invalid');
+
+        // Mevcut username ile aynıysa kontrol etme
+        if (username === currentUsernameRef.current) {
+            setUsernameStatus('idle');
+            return;
         }
+
+        setUsernameStatus('checking');
+
+        // 1 saniye sonra API'yi çağır
+        debounceTimeoutRef.current = setTimeout(async () => {
+            try {
+                const result = await checkUsernameAvailability(username);
+                if (result.available) {
+                    setUsernameStatus('available');
+                } else {
+                    setUsernameStatus('taken');
+                }
+            } catch (e) {
+                // 404 veya diğer hatalar - available olarak kabul et veya hata göster
+                console.error('Username check error:', e);
+                setUsernameStatus('error');
+            }
+        }, 1000);
     };
+
+    // Component unmount olduğunda timeout'u temizle
+    useEffect(() => {
+        return () => {
+            if (debounceTimeoutRef.current) {
+                clearTimeout(debounceTimeoutRef.current);
+            }
+        };
+    }, []);
 
 
     // Avatar seçimi (FileManager'dan)
@@ -78,6 +109,9 @@ const ProfileSettingsPanel = ({
                 return <X className="text-red-500" size={16} />;
             case 'invalid':
                 return <AlertCircle className="text-orange-500" size={16} />;
+            case 'error':
+                return <AlertCircle className="text-red-500" size={16} />;
+            case 'idle':
             default:
                 return null;
         }
@@ -93,6 +127,9 @@ const ProfileSettingsPanel = ({
                 return { message: 'Bu kullanıcı adı alınmış', color: 'text-red-600' };
             case 'invalid':
                 return { message: 'En az 3 karakter olmalı', color: 'text-orange-600' };
+            case 'error':
+                return { message: 'Kontrol edilemedi, tekrar deneyin', color: 'text-red-600' };
+            case 'idle':
             default:
                 return { message: '', color: '' };
         }
