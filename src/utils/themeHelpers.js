@@ -19,7 +19,15 @@ export const getImageUrl = (url) => {
         return `${baseUrl.replace(/\/$/, '')}${path}`;
     }
 
-    if (url.startsWith('http://localhost:8000') || url.startsWith(baseUrl)) {
+    // Replace localhost:8000 with our configured API_BASE_URL for production
+    if (url.startsWith('http://localhost:8000')) {
+        const urlObj = new URL(url);
+        const path = urlObj.pathname + urlObj.search;
+        return `${baseUrl.replace(/\/$/, '')}${path}`;
+    }
+
+    // URL already uses the correct baseUrl
+    if (url.startsWith(baseUrl)) {
         return url;
     }
 
