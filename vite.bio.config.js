@@ -33,7 +33,7 @@ export default defineConfig({
         rollupOptions: {
             input: path.resolve(__dirname, 'src/bio-main.jsx'),
             output: {
-                entryFileNames: 'assets/[name].js', // simplify naming if possible, but hash is good for cache
+                entryFileNames: 'assets/[name]-[hash].js', // Enable hashing for cache busting
                 chunkFileNames: 'assets/[name]-[hash].js',
                 assetFileNames: 'assets/[name]-[hash].[ext]'
             }
