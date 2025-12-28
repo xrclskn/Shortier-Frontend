@@ -5,13 +5,13 @@ import fs from 'fs';
 
 // Determine the output directory based on environment
 const localRedirectPath = '../shortier_redirect/public/bio';
-const serverBackendPath = '../backend/public/bio';
+const serverBackendPath = '../redirect/public/bio';
 
 let finalOutDir = localRedirectPath;
 
 if (process.env.BIO_OUT_DIR) {
     finalOutDir = process.env.BIO_OUT_DIR;
-} else if (fs.existsSync(path.resolve(__dirname, '../backend'))) {
+} else if (fs.existsSync(path.resolve(__dirname, '../redirect'))) {
     finalOutDir = serverBackendPath;
 }
 
