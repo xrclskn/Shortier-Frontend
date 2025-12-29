@@ -30,10 +30,14 @@ const ActionLinkModal = ({
 
     const [isFileManagerOpen, setIsFileManagerOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const savingLock = React.useRef(false);
 
     // Reset or Load data
     useEffect(() => {
         if (isOpen) {
+            savingLock.current = false;
+            setIsSaving(false);
             if (initialData) {
                 // Safety check for settings - can be a JSON string or object
                 let parsedSettings = {};
@@ -84,7 +88,7 @@ const ActionLinkModal = ({
                     customImageUrl: '',
                     customIcon: '',
                     settings: {
-                        color: socialPlatforms.find(p => p.id === 'instagram')?.color || '#E1306C',
+                        color: '#000000',
                         visible: true
                     }
                 });
@@ -102,17 +106,25 @@ const ActionLinkModal = ({
             label: platform?.name || '',
             settings: {
                 ...prev.settings,
-                color: platform?.color || '#000000'
+                color: '#000000' // Force black default
             }
         }));
     };
 
-    const handleSave = () => {
+    const handleSave = (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (e && e.stopPropagation) e.stopPropagation();
+
+        if (savingLock.current) return;
+
         // Validation
         if (!formData.url) {
             toast.error('Lütfen bir URL girin');
             return;
         }
+
+        savingLock.current = true;
+        setIsSaving(true);
 
         const platform = socialPlatforms.find(p => p.id === formData.platform);
 
@@ -132,7 +144,7 @@ const ActionLinkModal = ({
             ...initialData,
             label: formData.label || platform?.name || 'Link',
             original_url: finalUrl,
-            icon: formData.icon, // This is the platform ID essentially
+            icon: formData.icon,
             settings: {
                 ...formData.settings,
                 visualType: formData.visualType,
@@ -141,8 +153,11 @@ const ActionLinkModal = ({
             }
         };
 
-        onSave(LinkData);
+        // Close first to prevent UI interactions immediately
         onClose();
+
+        // Then save
+        onSave(LinkData);
     };
 
     const handleImageSelect = (fileOrUrl) => {
@@ -524,10 +539,11 @@ const ActionLinkModal = ({
                         </button>
                         <button
                             onClick={handleSave}
-                            className="px-6 py-2 text-sm font-bold text-white bg-[#010101] hover:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center gap-2"
+                            disabled={isSaving}
+                            className={`px-6 py-2 text-sm font-bold text-white bg-[#010101] hover:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] flex items-center gap-2 ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            <Check size={18} />
-                            Kaydet
+                            {isSaving ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" /> : <Check size={18} />}
+                            {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
                         </button>
                     </div>
                 </div>

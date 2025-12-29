@@ -14,7 +14,10 @@ const qrCode = new QRCodeStyling({
     imageOptions: {
         crossOrigin: "anonymous",
         margin: 5,
-        imageSize: 0.5 // 50% of QR code size for better logo visibility
+        imageSize: 0.4 // Reduced default
+    },
+    qrOptions: {
+        errorCorrectionLevel: 'H' // High error correction
     }
 });
 
@@ -68,6 +71,9 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
                 crossOrigin: "anonymous",
                 margin: 5,
                 imageSize: imageSize
+            },
+            qrOptions: {
+                errorCorrectionLevel: 'H'
             }
         });
     }, [url, color, bgColor, dotType, cornerType, cornerColor, image, imageSize]);
@@ -234,7 +240,7 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
                                     <input
                                         type="range"
                                         min="0.2"
-                                        max="0.6"
+                                        max="0.4"
                                         step="0.05"
                                         value={imageSize}
                                         onChange={(e) => setImageSize(parseFloat(e.target.value))}

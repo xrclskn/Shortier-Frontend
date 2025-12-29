@@ -46,6 +46,19 @@ const SocialLinksPanel = ({
             );
         } else {
             // Add new
+            // Safety check: Prevent duplicate submissions (within 1 second with same URL)
+            const isDuplicate = socialLinks.some(l =>
+                l._new &&
+                l.original_url === linkData.original_url &&
+                l.icon === linkData.icon &&
+                (Date.now() - (l.id || 0) < 2000) // Check if created in last 2 seconds
+            );
+
+            if (isDuplicate) {
+                console.warn("Duplicate link submission prevented");
+                return;
+            }
+
             const newLink = {
                 ...linkData,
                 id: Date.now(), // Temp ID
@@ -127,7 +140,8 @@ const SocialLinksPanel = ({
                         const platformData = socialPlatforms.find(p => p.id === link.icon);
                         // Fallback logic
                         const visualType = link.settings?.visualType || 'icon';
-                        const color = link.settings?.color || platformData?.color || '#6366F1';
+                        // User request: Default to black, avoid platform colors
+                        const color = link.settings?.color || '#000000';
                         // Icon to show in LIST (just preview)
                         const listIcon = (() => {
                             if (visualType === 'image' && link.settings?.customImageUrl) {
