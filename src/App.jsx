@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import { AnimatePresence, motion } from "framer-motion";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Lazy load components
 const Login = lazy(() => import("@/pages/auth/Login"));
@@ -235,6 +237,18 @@ export default function App() {
 
                 </Routes>
             </AnimatePresence>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </Suspense>
     );
 }

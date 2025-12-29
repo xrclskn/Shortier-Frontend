@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, X, ExternalLink, Users, Eye, EyeOff, Edit2, Phone, Settings, BarChart2 } from 'lucide-react';
+import { Plus, X, ExternalLink, Users, Eye, EyeOff, Edit2, Phone, Settings, BarChart2, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { socialPlatforms, iconOptions } from '@/components/profileEditor/Constants.js';
@@ -37,8 +37,18 @@ const SocialLinksPanel = ({
         setIsModalOpen(true);
     };
 
+    const lastSaveTime = React.useRef(0);
+
     // Save Link (New or Update)
     const handleSaveLink = (linkData) => {
+        const now = Date.now();
+        // Global throttle: ignore saves within 500ms of any previous save
+        if (now - lastSaveTime.current < 500) {
+            console.warn("Rapid save blocked");
+            return;
+        }
+        lastSaveTime.current = now;
+
         if (editingLink) {
             // Update existing
             onSocialLinksUpdate(
@@ -46,22 +56,21 @@ const SocialLinksPanel = ({
             );
         } else {
             // Add new
-            // Safety check: Prevent duplicate submissions (within 1 second with same URL)
+            // Duplicate check (stricter)
             const isDuplicate = socialLinks.some(l =>
                 l._new &&
                 l.original_url === linkData.original_url &&
-                l.icon === linkData.icon &&
-                (Date.now() - (l.id || 0) < 2000) // Check if created in last 2 seconds
+                l.icon === linkData.icon
             );
 
             if (isDuplicate) {
-                console.warn("Duplicate link submission prevented");
+                console.warn("Duplicate link content blocked");
                 return;
             }
 
             const newLink = {
                 ...linkData,
-                id: Date.now(), // Temp ID
+                id: now, // Use the captured 'now'
                 order: socialLinks.length,
                 is_active: true,
                 _new: true
@@ -218,6 +227,13 @@ const SocialLinksPanel = ({
                                             title="Düzenle"
                                         >
                                             <Edit2 size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteLink(link.id)}
+                                            className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                            title="Sil"
+                                        >
+                                            <Trash2 size={18} />
                                         </button>
                                     </div>
                                 </div>

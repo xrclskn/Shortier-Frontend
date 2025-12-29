@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from '@/utils/toast';
 import NavDesigner from "@/components/designer/NavDesigner.jsx";
 import TabNavigation from "@/components/designer/TabNavigation.jsx";
@@ -16,6 +16,7 @@ import { useProfileSave } from "@/context/ProfileSaveContext";
 import { useAuth } from "@/context/AuthContext";
 import { fontOptions, socialPlatforms } from "@/components/profileEditor/Constants.js";
 import useSubscription from "@/hooks/useSubscription.jsx";
+import useProfile from "@/hooks/useProfile.jsx";
 import { generateTempId, isTempId } from "@/utils/idHelpers";
 
 
@@ -204,9 +205,26 @@ export default function ProfileDesigner() {
     };
 
     const handleSocialLinksUpdate = (newSocialLinks) => {
+        // Safety: Deduplicate _new items that are identical (same icon + url)
+        // This prevents race conditions from double-adding the same link
+        const uniqueLinks = [];
+        const seenNew = new Set();
+
+        for (const link of newSocialLinks) {
+            if (link._new) {
+                const signature = `${link.icon}|${link.original_url}`;
+                if (seenNew.has(signature)) {
+                    console.warn("Deduplicated link in ProfileDesigner:", signature);
+                    continue;
+                }
+                seenNew.add(signature);
+            }
+            uniqueLinks.push(link);
+        }
+
         setProfileData(prev => ({
             ...prev,
-            socialLinks: mapSocialLinks(newSocialLinks)
+            socialLinks: mapSocialLinks(uniqueLinks)
         }));
     };
 
@@ -269,7 +287,10 @@ export default function ProfileDesigner() {
                 return {
                     ...prev,
                     _changed: false,
-                    socialLinks: (prev.socialLinks || []).map(l => ({ ...l, _changed: false })),
+                    // SYNC FIX: Replace local social links with server response to get real IDs.
+                    // This prevents sending temp IDs again (which causes duplicates).
+                    socialLinks: response.actionLinks ? mapSocialLinks(response.actionLinks) : (prev.socialLinks || []).map(l => ({ ...l, _changed: false })),
+
                     links: (prev.links || []).map(link => {
                         // 1. Check direct mapping first (Reliable)
                         if (isTempId(link.id) && idMapping[link.id]) {
@@ -444,74 +465,56 @@ export default function ProfileDesigner() {
     }
 
 
+    const { profileData: fetchedProfile, loading: profileLoading } = useProfile();
+
     useEffect(() => {
+        if (!fetchedProfile) return;
 
-        const getProfile = async () => {
+        try {
+            const { profile, links, socialLinks } = fetchedProfile;
 
-            try {
-                if (!user || !user.id) {
-                    return;
+            let settings = {};
+            if (profile && profile.settings) {
+                try {
+                    settings = typeof profile.settings === "string" ? JSON.parse(profile.settings) : profile.settings;
+                } catch (e) {
+                    settings = {};
                 }
-
-                const userId = user.id;
-
-                const data = await fetchProfile(userId);
-
-                if (!data) {
-                    return;
-                }
-
-                const { profile, links, socialLinks } = data;
-
-
-                let settings = {};
-                if (profile && profile.settings) {
-                    try {
-                        settings = typeof profile.settings === "string" ? JSON.parse(profile.settings) : profile.settings;
-                    } catch (e) {
-                        settings = {};
-                    }
-                } else {
-                }
-
-                const newProfileData = {
-                    username: profile?.username || "",
-                    displayName: profile?.full_name || profile?.display_name || "",
-                    title: profile?.title,
-                    bio: profile?.bio || "",
-                    avatarUrl: profile?.avatar_url || profile?.photo || "",
-                    theme: settings.theme || {
-                        backgroundColor: '#ffffff',
-                        backgroundType: 'solid',
-                        gradientStart: '#efefef',
-                        gradientEnd: '#dedede',
-                        buttonStyle: 'rounded',
-                        buttonColor: '#6366F1',
-                        textColor: '#020202',
-                        fontFamily: 'Inter'
-                    },
-                    socialLinks: socialLinks ? mapSocialLinks(socialLinks) : [],
-                    links: links || [],
-                    updatedAt: profile?.updated_at ? new Date(profile.updated_at).toLocaleDateString('tr-TR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }) : null
-                };
-
-                setProfileData(newProfileData);
-
-            } catch (error) {
-                console.error("getProfile fonksiyonunda hata:", error);
-                console.error("Hata detayı:", error.message);
-                console.error("Hata stack:", error.stack);
             }
-        };
 
-        getProfile();
-    }, [user, fetchProfile]);
+            const newProfileData = {
+                username: profile?.username || "",
+                displayName: profile?.full_name || profile?.display_name || "",
+                title: profile?.title,
+                bio: profile?.bio || "",
+                avatarUrl: profile?.avatar_url || profile?.photo || "",
+                theme: settings.theme || {
+                    backgroundColor: '#ffffff',
+                    backgroundType: 'solid',
+                    gradientStart: '#efefef',
+                    gradientEnd: '#dedede',
+                    buttonStyle: 'rounded',
+                    buttonColor: '#6366F1',
+                    textColor: '#020202',
+                    fontFamily: 'Inter'
+                },
+                socialLinks: socialLinks ? mapSocialLinks(socialLinks) : [],
+                links: links || [],
+                updatedAt: profile?.updated_at ? new Date(profile.updated_at).toLocaleDateString('tr-TR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : null
+            };
+
+            setProfileData(newProfileData);
+
+        } catch (error) {
+            console.error("Profile data parsing error:", error);
+        }
+    }, [fetchedProfile]);
 
     useEffect(() => {
         const fontObj = fontOptions.find(f => f.value === profileData.theme.fontFamily);

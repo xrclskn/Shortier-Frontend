@@ -106,7 +106,8 @@ const ActionLinkModal = ({
             label: platform?.name || '',
             settings: {
                 ...prev.settings,
-                color: '#000000' // Force black default
+                color: '#000000', // STRICTLY FORCE BLACK
+                backgroundColor: '#ffffff' // Reset bg just in case
             }
         }));
     };

@@ -1,40 +1,23 @@
-import { useState, useEffect, useCallback } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/api/client";
 
 /**
  * Kullanıcının abonelik (subscription) bilgisini getirir.
- *
- * Returns:
- * - loading: boolean
- * - error: string | null
- * - info: {...}
- * - isPro: boolean
- * - formatDate: function
- * - refresh: function (manuel güncelle)
+ * React Query ile cache mekanizması eklenerek gereksiz istekler önlenmiştir.
  */
 export default function useSubscription() {
-    const [loading, setLoading] = useState(true);
-    const [info, setInfo] = useState(null);
-    const [error, setError] = useState(null);
+    const queryClient = useQueryClient();
 
-    // Veriyi fetch et
-    const fetchData = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        try {
+    const { data: info, isLoading: loading, error } = useQuery({
+        queryKey: ['subscription'],
+        queryFn: async () => {
             const { data } = await apiClient.get("/api/billing/subscription");
-            setInfo(data);
-        } catch (err) {
-            setError("Abonelik bilgisi alınamadı.");
-            console.error("Subscription fetch error:", err);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+            return data;
+        },
+        staleTime: 5 * 60 * 1000, // 5 dakika boyunca taze kabul et (arkaplanda yenilemez)
+        refetchOnWindowFocus: false, // Pencere odağında yenileme yapma
+        retry: 1
+    });
 
     function formatDate(iso) {
         if (!iso) return "-";
@@ -52,6 +35,11 @@ export default function useSubscription() {
         }
     }
 
+    // Refresh fonksiyonu: Cache'i invalidate ederek zorla yenileme yapar
+    const refresh = () => {
+        return queryClient.invalidateQueries({ queryKey: ['subscription'] });
+    };
+
     // Pro abone mi?
     const isPro = !!(info && info.is_subscribed);
 
@@ -61,6 +49,6 @@ export default function useSubscription() {
         error,
         isPro,
         formatDate,
-        refresh: fetchData,
+        refresh,
     };
 }
