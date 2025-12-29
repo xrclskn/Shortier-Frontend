@@ -68,8 +68,8 @@ export default function LinkStats() {
                                 key={p.id}
                                 onClick={() => setSelectedPeriod(p.id)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedPeriod === p.id
-                                        ? "bg-black text-white shadow-lg"
-                                        : "bg-white text-gray-600 hover:bg-gray-100"
+                                    ? "bg-black text-white shadow-lg"
+                                    : "bg-white text-gray-600 hover:bg-gray-100"
                                     }`}
                             >
                                 {p.label}
@@ -155,18 +155,35 @@ export default function LinkStats() {
     );
 }
 
-const StatCard = ({ title, value, icon: Icon, color, subtext }) => (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-        <div>
-            <p className="text-gray-500 text-sm font-medium">{title}</p>
-            <h4 className="text-3xl font-bold text-gray-900 mt-1">{value}</h4>
-            {subtext && <p className="text-xs text-gray-400 mt-1">{subtext}</p>}
+const StatCard = ({ title, value, icon: Icon, color, subtext }) => {
+    // Extract color name from bg-{color}-500 format
+    const colorName = color.replace('bg-', '').replace('-500', '');
+    const colorMap = {
+        blue: '#3B82F6',
+        purple: '#8B5CF6',
+        green: '#22C55E',
+        red: '#EF4444',
+        orange: '#F97316',
+        gray: '#6B7280',
+    };
+    const hexColor = colorMap[colorName] || '#3B82F6';
+
+    return (
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div>
+                <p className="text-gray-500 text-sm font-medium">{title}</p>
+                <h4 className="text-3xl font-bold text-gray-900 mt-1">{value}</h4>
+                {subtext && <p className="text-xs text-gray-400 mt-1">{subtext}</p>}
+            </div>
+            <div
+                className="p-4 rounded-xl"
+                style={{ backgroundColor: `${hexColor}15` }}
+            >
+                <Icon className="w-6 h-6" style={{ color: hexColor }} />
+            </div>
         </div>
-        <div className={`p-4 rounded-xl ${color} bg-opacity-10`}>
-            <Icon className={`w-6 h-6 ${color.replace('bg-', 'text-')}`} />
-        </div>
-    </div>
-);
+    );
+};
 
 const BreakdownCard = ({ title, icon: Icon, data, formatLabel, formatValue }) => (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">

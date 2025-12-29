@@ -36,7 +36,7 @@ const ProfilePreview = ({
             gradientStart: '#dad5e5',
             gradientEnd: '#284069',
             buttonStyle: 'rounded',
-            buttonColor: '#8B5CF6',
+            buttonColor: '#1F2937',
             textColor: '#1F2937',
             fontFamily: 'Inter'
         },
@@ -55,7 +55,7 @@ const ProfilePreview = ({
         gradientStart: profileData?.theme?.gradientStart || '#dad5e5',
         gradientEnd: profileData?.theme?.gradientEnd || '#284069',
         buttonStyle: profileData?.theme?.buttonStyle || 'rounded',
-        buttonColor: profileData?.theme?.buttonColor || '#8B5CF6',
+        buttonColor: profileData?.theme?.buttonColor || '#1F2937',
         textColor: profileData?.theme?.textColor || '#1F2937',
         fontFamily: profileData?.theme?.fontFamily || 'Inter',
         bioCardActive: profileData?.theme?.bioCardActive,
@@ -410,16 +410,16 @@ const ProfilePreview = ({
                                         const visualRadius = settings.visualRadius || '0.5rem'; // Default visual radius
 
                                         const buttonStyle = settings.buttonStyle ?? link.buttonStyle ?? safeTheme.buttonStyle ?? 'rounded';
-                                        const buttonColor = settings.buttonColor ?? link.buttonColor ?? safeTheme.buttonColor ?? '#6366F1';
-                                        const textColor = settings.buttonTextColor ?? link.buttonTextColor ?? '#ffffff';
+                                        const buttonColor = settings.buttonColor ?? link.buttonColor ?? safeTheme.buttonColor ?? '#1F2937';
+                                        const textColor = settings.buttonTextColor ?? link.buttonTextColor ?? safeTheme.buttonTextColor ?? '#ffffff';
                                         const buttonShadow = settings.buttonShadow ?? link.buttonShadow ?? '0 4px 6px -1px rgb(0 0 0 / 0.1)';
                                         const buttonBorderWidth = settings.buttonBorderWidth ?? 0;
                                         const buttonBorderColor = settings.buttonBorderColor ?? '#e5e7eb';
 
                                         const linkStyle = {
                                             backgroundColor: buttonColor,
-                                            borderRadius: buttonStyle === 'square' ? '0.25rem' :
-                                                buttonStyle === 'pill' ? '9999px' : '0.5rem',
+                                            borderRadius: buttonStyle === 'square' ? '8px' :
+                                                buttonStyle === 'pill' ? '9999px' : '16px',
                                             color: textColor,
                                             boxShadow: buttonShadow,
                                             borderWidth: `${buttonBorderWidth}px`,
@@ -448,15 +448,15 @@ const ProfilePreview = ({
                                                                     />
                                                                 ) : (
                                                                     <FontAwesomeIcon
-                                                                        icon={iconOption?.icon}
+                                                                        icon={iconOption?.icon || ['fas', 'link']}
                                                                         size="lg"
                                                                         style={{
                                                                             color: iconColor,
                                                                             backgroundColor: iconBackground ? '#ffffff' : 'transparent',
                                                                             borderRadius: visualRadius,
                                                                             padding: iconBackground ? '6px 4px' : '0',
-                                                                            width: iconBackground ? '2rem' : 'auto',
-                                                                            height: iconBackground ? '2rem' : 'auto',
+                                                                            width: '1.5rem',
+                                                                            height: '1.5rem',
                                                                             display: 'flex',
                                                                             alignItems: 'center',
                                                                             justifyContent: 'center'

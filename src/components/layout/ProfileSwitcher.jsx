@@ -18,6 +18,9 @@ export default function ProfileSwitcher({ className = "", align = "left" }) {
     const [deleteError, setDeleteError] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Limit/Upgrade modal state
+    const [upgradeModalOpen, setUpgradeModalOpen] = useState(false);
+
     const toggleOpen = () => setIsOpen(!isOpen);
 
     const handleCreateProfile = async (e) => {
@@ -30,6 +33,11 @@ export default function ProfileSwitcher({ className = "", align = "left" }) {
             setIsCreating(false);
             setNewProfileName('');
         } catch (err) {
+            if (err.response && err.response.status === 403) {
+                setUpgradeModalOpen(true);
+                setIsOpen(false); // Close dropdown
+                return;
+            }
             setError(err.response?.data?.message || 'Profil oluşturulamadı.');
         }
     };
@@ -261,11 +269,59 @@ export default function ProfileSwitcher({ className = "", align = "left" }) {
                                     onClick={handleDeleteProfile}
                                     disabled={confirmText !== 'DELETE' || isDeleting}
                                     className={`flex-1 py-2.5 px-4 rounded-lg font-bold text-sm transition-colors ${confirmText === 'DELETE'
-                                            ? 'bg-red-600 text-white hover:bg-red-700'
-                                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                        ? 'bg-red-600 text-white hover:bg-red-700'
+                                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                         }`}
                                 >
                                     {isDeleting ? 'Siliniyor...' : 'Profili Sil'}
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+            {/* Upgrade Plan Modal */}
+            <AnimatePresence>
+                {upgradeModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+                        onClick={() => setUpgradeModalOpen(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+                        >
+                            <div className="bg-amber-50 p-6 flex flex-col items-center text-center">
+                                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+                                    <span className="text-3xl">🚀</span>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">Limit Aşıldı</h3>
+                                <p className="text-gray-600">
+                                    Mevcut planınızdaki profil oluşturma limitine ulaştınız.
+                                    Daha fazla profil oluşturmak için planınızı yükseltin.
+                                </p>
+                            </div>
+
+                            <div className="p-6 bg-white space-y-3">
+                                <button
+                                    onClick={() => {
+                                        window.location.href = '/app/subscription';
+                                    }}
+                                    className="w-full py-3 bg-black text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <span>Planı Yükselt</span>
+                                </button>
+                                <button
+                                    onClick={() => setUpgradeModalOpen(false)}
+                                    className="w-full py-3 text-gray-500 font-medium hover:text-gray-900 transition-colors"
+                                >
+                                    Belki Sonra
                                 </button>
                             </div>
                         </motion.div>

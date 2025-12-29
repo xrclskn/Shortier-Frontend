@@ -13,7 +13,8 @@ const qrCode = new QRCodeStyling({
     },
     imageOptions: {
         crossOrigin: "anonymous",
-        margin: 10
+        margin: 5,
+        imageSize: 0.5 // 50% of QR code size for better logo visibility
     }
 });
 
@@ -29,6 +30,7 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
     const [cornerType, setCornerType] = useState(initialSettings?.cornerType || "extra-rounded");
     const [cornerColor, setCornerColor] = useState(initialSettings?.cornerColor || "#000000");
     const [image, setImage] = useState(initialSettings?.image || "");
+    const [imageSize, setImageSize] = useState(initialSettings?.imageSize || 0.4);
 
     // Update state when initialSettings changes (e.g. after fetch)
     useEffect(() => {
@@ -39,6 +41,7 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
             if (initialSettings.cornerType) setCornerType(initialSettings.cornerType);
             if (initialSettings.cornerColor) setCornerColor(initialSettings.cornerColor);
             if (initialSettings.image) setImage(initialSettings.image);
+            if (initialSettings.imageSize) setImageSize(initialSettings.imageSize);
         }
     }, [initialSettings]);
 
@@ -60,9 +63,14 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
             cornersSquareOptions: {
                 type: cornerType,
                 color: cornerColor
+            },
+            imageOptions: {
+                crossOrigin: "anonymous",
+                margin: 5,
+                imageSize: imageSize
             }
         });
-    }, [url, color, bgColor, dotType, cornerType, cornerColor, image]);
+    }, [url, color, bgColor, dotType, cornerType, cornerColor, image, imageSize]);
 
     const handleDownload = () => {
         qrCode.download({
@@ -220,9 +228,27 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
                             )}
                         </div>
                         {image && (
-                            <button onClick={() => setImage("")} className="text-xs font-medium text-red-500 hover:text-red-700 underline decoration-red-200 hover:decoration-red-500 underline-offset-2 transition-all">
-                                Logoyu Kaldır
-                            </button>
+                            <>
+                                <div className="mt-4">
+                                    <label className="text-xs text-gray-500 block mb-2 font-medium">Logo Boyutu: {Math.round(imageSize * 100)}%</label>
+                                    <input
+                                        type="range"
+                                        min="0.2"
+                                        max="0.6"
+                                        step="0.05"
+                                        value={imageSize}
+                                        onChange={(e) => setImageSize(parseFloat(e.target.value))}
+                                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
+                                    />
+                                    <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                                        <span>Küçük</span>
+                                        <span>Büyük</span>
+                                    </div>
+                                </div>
+                                <button onClick={() => setImage("")} className="text-xs font-medium text-red-500 hover:text-red-700 underline decoration-red-200 hover:decoration-red-500 underline-offset-2 transition-all mt-2">
+                                    Logoyu Kaldır
+                                </button>
+                            </>
                         )}
                     </div>
 
@@ -272,7 +298,7 @@ export default function QrCodeDesigner({ url, initialTitle = "QR Kod", onClose, 
 
                         {onSave && (
                             <button
-                                onClick={() => onSave({ color, bgColor, dotType, cornerType, cornerColor, image })}
+                                onClick={() => onSave({ color, bgColor, dotType, cornerType, cornerColor, image, imageSize })}
                                 className="w-full bg-white border border-gray-200 hover:border-black text-gray-900 rounded-lg px-4 py-2.5 flex items-center justify-center font-medium transition-all active:scale-95 hover:shadow-md"
                             >
                                 <Save size={16} className="mr-2" />

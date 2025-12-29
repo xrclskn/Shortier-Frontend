@@ -42,9 +42,9 @@ const LinkManager = ({
             original_url: 'https://',
             url: '',
             icon: '',
-            iconColor: '#6B7280',
-            buttonColor: '#6366F1',
-            buttonTextColor: '#FFFFFF',
+            iconColor: '#010101',
+            buttonColor: '#eeeee6',
+            buttonTextColor: '#010101',
             buttonStyle: 'rounded',
             is_active: true,
             order: links.length + 1,
@@ -298,8 +298,7 @@ const LinkManager = ({
             {/* Limit uyarısı */}
             {limitReached && (
                 <div className="rounded-md border border-amber-300 bg-amber-100 text-amber-800 text-sm p-4 leading-relaxed">
-                    Ücretsiz planda en fazla {maxFreeLinks} link ekleyebilirsin. Daha fazla link eklemek için
-                    abonelik satın alabilirsin.
+                    Ücretsiz planda en fazla {maxFreeLinks} link ekleyebilirsin. Daha fazla link eklemek için planınızı yükseltebilirsiniz.
                 </div>
             )}
 

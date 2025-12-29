@@ -4,6 +4,7 @@ import { useSubscriptionContext } from '@/context/SubscriptionContext.jsx';
 import { useProfileSave } from "@/context/ProfileSaveContext.jsx";
 import FileManagerModal from '@/components/common/FileManagerModal.jsx';
 import { getImageUrl } from '@/utils/themeHelpers';
+import { config } from '@/config';
 
 const ProfileSettingsPanel = ({
     profileData,
@@ -91,7 +92,7 @@ const ProfileSettingsPanel = ({
 
     // URL oluşturma
     const generateProfileUrl = () => {
-        return `shortier.me/${profileData.username || 'kullanici-adi'}`;
+        return `${config.SHORT_LINK_DOMAIN}/@${profileData.username || 'kullanici-adi'}`;
     };
 
     // Karakter sayma
@@ -274,9 +275,14 @@ const ProfileSettingsPanel = ({
                 {/* Profil URL Önizleme */}
                 <div className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
                     <p className="text-xs text-gray-500 mb-1">Profil Linkiniz:</p>
-                    <code className="text-sm font-mono text-[#010101] bg-white px-2 py-1 rounded border border-gray-300">
+                    <a
+                        href={`${config.PROFILE_BASE_URL}/@${profileData.username || ''}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-mono text-blue-600 bg-white px-2 py-1 rounded border border-gray-300 hover:underline hover:text-blue-800 transition-colors block w-fit"
+                    >
                         {generateProfileUrl()}
-                    </code>
+                    </a>
                 </div>
             </div>
 

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Image as ImageIcon, Trash2, Check, Loader2 } from 'lucide-react';
+import { X, Upload, Image as ImageIcon, Trash2, Check, Loader2, FolderHeart } from 'lucide-react';
 import apiClient from "@/api/client";
 import { toast } from '@/utils/toast';
 import { config } from '@/config';
 
 const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" }) => {
-    const [activeTab, setActiveTab] = useState('library'); // library, upload
+    const [activeTab, setActiveTab] = useState('library'); // library, shared, upload
     const [media, setMedia] = useState([]);
+    const [sharedMedia, setSharedMedia] = useState([]);
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -15,6 +16,7 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
     useEffect(() => {
         if (isOpen) {
             fetchMedia();
+            fetchSharedMedia();
             setActiveTab('library');
             setSelectedFile(null);
         }
@@ -30,6 +32,15 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
             toast.error('Görseller yüklenirken hata oluştu');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchSharedMedia = async () => {
+        try {
+            const res = await apiClient.get('/api/media/shared');
+            setSharedMedia(res.data);
+        } catch (error) {
+            console.error('Ortak görseller yüklenemedi:', error);
         }
     };
 
@@ -88,6 +99,14 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
         }
     };
 
+    // Aktif sekmeye göre görüntülenecek medya
+    const getCurrentMedia = () => {
+        if (activeTab === 'shared') return sharedMedia;
+        return media;
+    };
+
+    const currentMedia = getCurrentMedia();
+
     if (!isOpen) return null;
 
     return (
@@ -106,16 +125,26 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
                     <button
                         onClick={() => setActiveTab('library')}
                         className={`py-3 px-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'library'
-                            ? 'border-purple-600 text-purple-600'
+                            ? 'border-[#010101] text-[#010101]'
                             : 'border-transparent text-gray-500 hover:text-gray-700'
                             }`}
                     >
                         Medya Kütüphanesi
                     </button>
                     <button
+                        onClick={() => setActiveTab('shared')}
+                        className={`py-3 px-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'shared'
+                            ? 'border-[#010101] text-[#010101]'
+                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                            }`}
+                    >
+                        <FolderHeart size={16} />
+                        Ortak Görseller
+                    </button>
+                    <button
                         onClick={() => setActiveTab('upload')}
                         className={`py-3 px-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upload'
-                            ? 'border-purple-600 text-purple-600'
+                            ? 'border-[#010101] text-[#010101]'
                             : 'border-transparent text-gray-500 hover:text-gray-700'
                             }`}
                     >
@@ -125,31 +154,37 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
 
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-4 bg-gray-50/50 min-h-[400px]">
-                    {activeTab === 'library' ? (
-                        loading ? (
+                    {activeTab === 'library' || activeTab === 'shared' ? (
+                        loading && activeTab === 'library' ? (
                             <div className="flex items-center justify-center h-64">
-                                <Loader2 className="animate-spin text-purple-500" size={32} />
+                                <Loader2 className="animate-spin text-[#010101]" size={32} />
                             </div>
-                        ) : media.length === 0 ? (
+                        ) : currentMedia.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-64 text-gray-400">
                                 <ImageIcon size={48} className="mb-4 opacity-50" />
-                                <p>Henüz hiç görsel yüklemediniz.</p>
-                                <button
-                                    onClick={() => setActiveTab('upload')}
-                                    className="mt-4 text-purple-600 hover:underline font-medium"
-                                >
-                                    İlk görselini yükle
-                                </button>
+                                {activeTab === 'shared' ? (
+                                    <p>Henüz ortak görsel bulunmuyor.</p>
+                                ) : (
+                                    <>
+                                        <p>Henüz hiç görsel yüklemediniz.</p>
+                                        <button
+                                            onClick={() => setActiveTab('upload')}
+                                            className="mt-4 text-[#010101] hover:underline font-medium"
+                                        >
+                                            İlk görselini yükle
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                                {media.map((item) => (
+                                {currentMedia.map((item) => (
                                     <div
                                         key={item.path}
                                         onClick={() => setSelectedFile(item)}
                                         className={`group relative aspect-square bg-white rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${selectedFile?.path === item.path
-                                            ? 'border-purple-500 ring-2 ring-purple-200'
-                                            : 'border-gray-200 hover:border-purple-300'
+                                            ? 'border-[#010101] ring-2 ring-gray-200'
+                                            : 'border-gray-200 hover:border-gray-400'
                                             }`}
                                     >
                                         <img
@@ -162,24 +197,33 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
                                             }}
                                         />
 
-                                        {/* Overlay & Actions */}
+                                        {/* Overlay & Actions - Hide delete for shared files */}
                                         <div className={`absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-start justify-end p-2 ${selectedFile?.path === item.path ? 'bg-black/10' : ''
                                             }`}>
-                                            <button
-                                                onClick={(e) => handleDelete(e, item.path)}
-                                                className="bg-white/90 p-1.5 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
-                                                title="Sil"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
+                                            {!item.shared && (
+                                                <button
+                                                    onClick={(e) => handleDelete(e, item.path)}
+                                                    className="bg-white/90 p-1.5 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white shadow-sm"
+                                                    title="Sil"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            )}
                                         </div>
 
                                         {/* Selection Indicator */}
                                         {selectedFile?.path === item.path && (
-                                            <div className="absolute inset-0 flex items-center justify-center bg-purple-500/20 pointer-events-none">
-                                                <div className="bg-purple-500 text-white p-2 rounded-full shadow-lg">
+                                            <div className="absolute inset-0 flex items-center justify-center bg-[#010101]/20 pointer-events-none">
+                                                <div className="bg-[#010101] text-white p-2 rounded-full shadow-lg">
                                                     <Check size={20} />
                                                 </div>
+                                            </div>
+                                        )}
+
+                                        {/* Shared Badge */}
+                                        {item.shared && (
+                                            <div className="absolute top-2 left-2 bg-[#010101]/80 text-white text-[10px] px-2 py-0.5 rounded-full">
+                                                Ortak
                                             </div>
                                         )}
 
@@ -198,19 +242,19 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
                                 border-2 border-dashed rounded-xl cursor-pointer transition-all
                                 ${uploading
                                     ? 'bg-gray-50 border-gray-300 opacity-50 cursor-wait'
-                                    : 'bg-white border-purple-200 hover:border-purple-400 hover:bg-purple-50'
+                                    : 'bg-white border-gray-300 hover:border-[#010101] hover:bg-gray-50'
                                 }
                             `}>
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     {uploading ? (
                                         <>
-                                            <Loader2 className="w-12 h-12 mb-3 text-purple-500 animate-spin" />
+                                            <Loader2 className="w-12 h-12 mb-3 text-[#010101] animate-spin" />
                                             <p className="mb-2 text-sm text-gray-500 font-semibold">Görsel işleniyor...</p>
                                             <p className="text-xs text-gray-400">WebP formatına dönüştürülüyor</p>
                                         </>
                                     ) : (
                                         <>
-                                            <Upload className="w-12 h-12 mb-3 text-purple-500" />
+                                            <Upload className="w-12 h-12 mb-3 text-[#010101]" />
                                             <p className="mb-2 text-lg text-gray-700 font-medium">Görsel Yüklemek İçin Tıklayın</p>
                                             <p className="text-sm text-gray-500">veya sürükleyip bırakın</p>
                                             <p className="mt-4 text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
@@ -246,7 +290,7 @@ const FileManagerModal = ({ isOpen, onClose, onSelect, title = "Görsel Seç" })
                             px-6 py-2 rounded-lg font-medium text-sm transition-all flex items-center space-x-2
                             ${!selectedFile || activeTab === 'upload'
                                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-purple-600 text-white hover:bg-purple-700 shadow-lg hover:shadow-purple-500/30'
+                                : 'bg-[#010101] text-white hover:bg-gray-800 shadow-lg'
                             }
                         `}
                     >

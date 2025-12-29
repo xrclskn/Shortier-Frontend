@@ -19,7 +19,6 @@ import useSubscription from "@/hooks/useSubscription.jsx";
 import { generateTempId, isTempId } from "@/utils/idHelpers";
 
 
-
 export default function ProfileDesigner() {
     const [activeTab, setActiveTab] = useState('design');
     const [viewMode, setViewMode] = useState('mobile');
@@ -93,7 +92,7 @@ export default function ProfileDesigner() {
             gradientStart: '#efefef',
             gradientEnd: '#dedede',
             buttonStyle: 'rounded',
-            buttonColor: '#6366F1',
+            buttonColor: '#1F2937',
             textColor: '#020202',
             fontFamily: 'Montserrat'
         },
@@ -112,7 +111,10 @@ export default function ProfileDesigner() {
     const handleThemeSelect = (newTheme) => {
         setProfileData(prev => ({
             ...prev,
-            theme: newTheme // Tema objesini tamamen güncelle
+            theme: {
+                ...prev.theme, // Keep existing theme settings
+                ...newTheme   // Override with new theme values
+            }
         }));
     };
 
@@ -143,6 +145,7 @@ export default function ProfileDesigner() {
         setEditingLink({
             id: tempId,
             label: '',
+            description: '',
             original_url: '',
             is_active: true
         });

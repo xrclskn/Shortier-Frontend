@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 
-export default function StatsChart({ stats, loading }) {
-    // API verisi
-    const chartRows = stats?.chart?.data ?? [];
-
-    // Granularity
-    const granularity = stats?.chart?.granularity ?? "day";
+export default function StatsChart({ stats, loading, data, granularity: propGranularity }) {
+    // Support both prop patterns:
+    // 1. stats/loading (from Statistics page)
+    // 2. data/granularity (from LinkStats page)
+    const chartRows = data ?? stats?.chart?.data ?? [];
+    const granularity = propGranularity ?? stats?.chart?.granularity ?? "day";
 
     // Label güvenliği
     const formatLabel = (row) => {

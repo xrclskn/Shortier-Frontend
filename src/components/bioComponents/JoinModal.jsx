@@ -27,21 +27,21 @@ const JoinModal = ({ open, onClose, username, profile }) => {
             className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
             onClick={handleOverlayClick}
         >
-            <div className="bg-[#010101] rounded-3xl p-8 max-w-md w-full relative shadow-2xl border border-gray-800">
+            <div className="bg-[#010101] rounded-3xl p-6 md:p-8 max-w-md w-full relative shadow-2xl border border-gray-800 mx-4 max-h-[90vh] overflow-y-auto">
                 {/* Kapat Butonu */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
+                    className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors z-10"
                     aria-label="Kapat"
                 >
                     <X size={24} className="text-white" />
                 </button>
 
                 {/* Marka */}
-                <div className="text-3xl font-bold text-white mb-6 font-handwritten">Shortier</div>
+                <div className="text-2xl md:text-3xl font-bold text-white mb-6 font-handwritten">Shortier</div>
 
                 {/* Başlık */}
-                <h2 className="text-3xl font-bold text-white mb-2 leading-tight">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
                     <span className="text-gray-400">Yüzlerce </span> içerik üreticisinin güvendiği
                     tek <span className="text-gray-400">link-in-bio</span> platformuna katıl.
                 </h2>
@@ -77,7 +77,7 @@ const JoinModal = ({ open, onClose, username, profile }) => {
                 {/* Alt Linkler */}
                 <div className="space-y-2 text-sm">
                     <div>
-                        <a href="https://shortier.link/about-us" target={"_blank"} className="underline cursor-pointer hover:no-underline text-gray-400 hover:text-white">
+                        <a href="https://shortier.link/" target={"_blank"} className="underline cursor-pointer hover:no-underline text-gray-400 hover:text-white">
                             Shortier hakkında daha fazla bilgi
                         </a>
                     </div>
