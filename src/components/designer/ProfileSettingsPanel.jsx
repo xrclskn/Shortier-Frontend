@@ -18,9 +18,8 @@ const ProfileSettingsPanel = ({
 
     // Subscription context for plan-gated features
     const { info, loading } = useSubscriptionContext();
-    // Plus+ and above plans have remove_branding feature
-    // If loading or info unavailable, allow feature (don't block users)
-    const hasBranding = loading ? true : (info?.is_subscribed ?? false);
+    // If loading or info unavailable, default to false (secure by default)
+    const hasBranding = loading ? false : (info?.is_subscribed ?? false);
 
     const { checkUsernameAvailability } = useProfileSave();
 
