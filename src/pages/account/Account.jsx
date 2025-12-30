@@ -6,7 +6,7 @@ import { PasswordChange } from "@/components/account/PasswordChange.jsx";
 import useDeleteAccount from "@/hooks/useDeleteAccount.js";
 
 export default function Account() {
-    const deleteAccount = useDeleteAccount();
+    const { mutateAsync: deleteAccount } = useDeleteAccount();
     const { user, logout } = useAuth();
     const [activeTab, setActiveTab] = useState("profile");
 
@@ -17,8 +17,8 @@ export default function Account() {
                 <button
                     onClick={() => setActiveTab("profile")}
                     className={`px-4 py-2 rounded-lg font-medium ${activeTab === "profile"
-                            ? "bg-[#010101] text-white"
-                            : "text-gray-500 hover:text-gray-700 hover:bg-[#efefef]"
+                        ? "bg-[#010101] text-white"
+                        : "text-gray-500 hover:text-gray-700 hover:bg-[#efefef]"
                         }`}
                 >
                     Profil & Şifre
@@ -26,8 +26,8 @@ export default function Account() {
                 <button
                     onClick={() => setActiveTab("account")}
                     className={`px-4 py-2 rounded-lg font-medium ${activeTab === "account"
-                            ? "bg-[#010101] text-white"
-                            : "text-gray-500 hover:text-gray-700 hover:bg-[#efefef]"
+                        ? "bg-[#010101] text-white"
+                        : "text-gray-500 hover:text-gray-700 hover:bg-[#efefef]"
                         }`}
                 >
                     Hesap & Oturum

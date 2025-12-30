@@ -26,7 +26,7 @@ export default function DangerZone({ deleteAccount, logout }) {
         }
         try {
             setDeleteLoading(true);
-            await deleteAccount(deletePassword, deleteReason);
+            await deleteAccount({ password: deletePassword, reason: deleteReason });
             logout();
             window.location.href = "/";
         } catch (err) {
