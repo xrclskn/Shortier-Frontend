@@ -29,63 +29,57 @@ export default function ProfileCard({ userData, onEdit }) {
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-custom border border-gray-200 p-8 duration-300">
-            <div className="flex items-start justify-between mb-6">
-                <div className="flex items-center space-x-6">
-                    {userData?.photo ? (
-                        <img
-                            src={userData.photo}
-                            alt={userData?.name || 'Kullanıcı'}
-                            className="w-28 h-28 rounded-full border-4 border-[#efefef] object-cover shadow-md"
-                        />
-                    ) : (
-                        <div className="w-28 h-28 rounded-full bg-[#efefef] flex items-center justify-center text-[#010101] font-bold text-3xl shadow-md">
-                            {userData?.name?.charAt(0).toUpperCase() || 'U'}
-                        </div>
-                    )}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-5">
+                {userData?.photo ? (
+                    <img
+                        src={userData.photo}
+                        alt={userData?.name || 'Kullanıcı'}
+                        className="w-20 h-20 rounded-full border border-gray-100 object-cover"
+                    />
+                ) : (
+                    <div className="w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center text-gray-800 font-bold text-2xl border border-gray-100">
+                        {userData?.name?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                )}
 
-                    <div className="space-y-2">
-                        <h2 className="text-3xl font-bold text-gray-900">
+                <div className="flex-1 text-center sm:text-left space-y-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h2 className="text-xl font-bold text-gray-900">
                             {userData?.name || 'Kullanıcı'}
                         </h2>
-
-                        {/* ✅ E-posta doğrulama kısmı */}
+                        {/* Status Badge */}
                         {isEmailVerified ? (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                <CheckCircle className="w-4 h-4 mr-1" />
-                                E-posta Doğrulandı
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100/50">
+                                <CheckCircle className="w-3.5 h-3.5 mr-1" />
+                                Doğrulanmış Hesap
                             </span>
                         ) : (
-                            <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                                    <AlertTriangle className="w-4 h-4 mr-1" />
-                                    E-posta Doğrulanmadı
+                            <div className="flex items-center gap-2 justify-center sm:justify-start">
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                    <AlertTriangle className="w-3.5 h-3.5 mr-1" />
+                                    Doğrulanmamış
                                 </span>
-
                                 <button
                                     onClick={handleSendVerification}
                                     disabled={sending || sent}
-                                    className={`text-xs font-medium rounded-md px-3 py-2 transition-all ${sent
-                                            ? 'bg-gray-100 text-gray-500 cursor-default'
-                                            : 'bg-[#010101] text-white hover:bg-gray-800'
+                                    className={`text-xs font-medium underline transition-colors ${sent
+                                        ? 'text-gray-400 no-underline cursor-default'
+                                        : 'text-indigo-600 hover:text-indigo-800'
                                         }`}
                                 >
-                                    {sent
-                                        ? 'E-posta Gönderildi ✔'
-                                        : sending
-                                            ? 'Gönderiliyor...'
-                                            : 'Doğrulama Maili Gönder'}
+                                    {sent ? 'Gönderildi' : (sending ? '...' : 'Doğrula')}
                                 </button>
                             </div>
                         )}
-
-                        <p className="text-gray-600 text-sm">
-                            E-Posta : {userData?.email || 'email@example.com'}
-                        </p>
-                        <p className="text-gray-500 text-sm">
-                            Üye olma tarihi: {formattedDate}
-                        </p>
                     </div>
+
+                    <p className="text-gray-500 text-sm">
+                        {userData?.email || 'email@example.com'}
+                    </p>
+                    <p className="text-gray-400 text-xs pt-1">
+                        Üyelik: {formattedDate}
+                    </p>
                 </div>
             </div>
         </div>
