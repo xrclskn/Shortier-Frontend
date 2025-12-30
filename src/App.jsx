@@ -219,7 +219,7 @@ export default function App() {
                     </Route>
 
 
-                    <Route path="/api/email/verify/:id/:hash" element={<EmailVerifyPage />} />
+                    <Route path="/auth/verify-email/:id/:hash" element={<EmailVerifyPage />} />
 
 
                     <Route path="*" element={
