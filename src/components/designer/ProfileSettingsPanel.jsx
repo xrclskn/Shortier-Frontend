@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { User, AtSign, FileText, Camera, Upload, X, Check, AlertCircle, Lock } from 'lucide-react';
-import { useSubscriptionContext } from '@/context/SubscriptionContext.jsx';
 import { useProfileSave } from "@/context/ProfileSaveContext.jsx";
 import FileManagerModal from '@/components/common/FileManagerModal.jsx';
 import { getImageUrl } from '@/utils/themeHelpers';
 import { config } from '@/config';
+import useSubscription from "@/hooks/useSubscription.jsx";
 
 const ProfileSettingsPanel = ({
     profileData,
@@ -16,10 +16,11 @@ const ProfileSettingsPanel = ({
     const debounceTimeoutRef = useRef(null);
     const currentUsernameRef = useRef(profileData.username);
 
-    // Subscription context for plan-gated features
-    const { info, loading } = useSubscriptionContext();
+    // Subscription hook
+    const { info, loading } = useSubscription();
     // If loading or info unavailable, default to false (secure by default)
     const hasBranding = loading ? false : (info?.is_subscribed ?? false);
+
 
     const { checkUsernameAvailability } = useProfileSave();
 
